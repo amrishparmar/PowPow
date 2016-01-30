@@ -27,15 +27,16 @@ PowPow.Game = function (game) {
 
 PowPow.Game.prototype = {
 
+    preload: function() {
+        this.load.image('sky', 'images/sky.png');
+    },
+
     create: function () {
-
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
-
+        this.add.tileSprite(0, 0, 800, 600, 'sky');
     },
 
     update: function () {
-
-        //  Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
+        
 
     },
 
