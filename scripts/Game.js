@@ -26,36 +26,62 @@ PowPow.Game = function (game) {
 };
 
 var player;
+var platforms;
+
 var keys;
+
 
 PowPow.Game.prototype = {
 
     preload: function() {
-        this.load.image('sky', 'images/sky.png');
+        this.load.image('city', 'images/maps/city.jpg');
+        this.load.image('ground', 'images/platform.png');
         this.load.image('player', 'images/player.png');
     },
 
     create: function () {
-        this.add.tileSprite(0, 0, 1600, 900, 'sky');
-        this.world.setBounds(0, 0, 1600, 900);
+        this.add.tileSprite(0, 0, 1600, 1000, 'city');
+        this.world.setBounds(0, 0, 1600, 1000);
         this.physics.startSystem(Phaser.Physics.ARCADE);
         
+        platforms = this.add.group();
+        platforms.enableBody = true;
+        var ground = platforms.create(0, this.world.height - 64, 'ground');
+        ground.scale.setTo(4, 2);
+        ground.body.immovable = true;
+        
         player = this.add.sprite(32, this.world.height - 150, 'player');
-        this.physics.enable(player);
-        this.camera.follow(player);
+        this.physics.arcade.enable(player);
+        
+        player.body.bounce.y = 0.2;
+        player.body.gravity.y = 600;
+        player.body.collideWorldBounds = true;
         
         keys = this.input.keyboard.addKeys({ 
             'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D 
         });
+        
+        this.camera.follow(player);
 
     },
 
     update: function () {
+        this.physics.arcade.collide(player, platforms);
+        
+        player.body.velocity.x = 0;
+        
         if (keys.left.isDown) {
-            player.body.velocity.x = -100;
+            player.body.velocity.x = -300;
         }
         else if (keys.right.isDown) {
-            player.body.velocity.x = 100;
+            player.body.velocity.x = 300;
+        }
+        else {
+            // player.animations.stop();
+        }
+        
+        if (keys.up.isDown && player.body.touching.down) {
+            player.body.velocity.y = -600;
         }
     },
 
