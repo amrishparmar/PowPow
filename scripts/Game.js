@@ -25,20 +25,38 @@ PowPow.Game = function (game) {
 
 };
 
+var player;
+var keys;
+
 PowPow.Game.prototype = {
 
     preload: function() {
         this.load.image('sky', 'images/sky.png');
+        this.load.image('player', 'images/player.png');
     },
 
     create: function () {
         this.add.tileSprite(0, 0, 1600, 900, 'sky');
         this.world.setBounds(0, 0, 1600, 900);
+        this.physics.startSystem(Phaser.Physics.ARCADE);
+        
+        player = this.add.sprite(32, this.world.height - 150, 'player');
+        this.physics.enable(player);
+        this.camera.follow(player);
+        
+        keys = this.input.keyboard.addKeys({ 
+            'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D 
+        });
+
     },
 
     update: function () {
-        
-
+        if (keys.left.isDown) {
+            player.body.velocity.x = -100;
+        }
+        else if (keys.right.isDown) {
+            player.body.velocity.x = 100;
+        }
     },
 
     quitGame: function (pointer) {
