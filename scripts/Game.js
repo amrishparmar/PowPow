@@ -34,8 +34,8 @@ var keys;
 PowPow.Game.prototype = {
 
     preload: function() {
-        this.load.image('city', 'images/maps/city.jpg');
-        this.load.image('ground', 'images/platform.png');
+        this.load.image('city', 'images/maps/city/city.jpg');
+        this.load.image('ground', 'images/maps/city/city_platform.png');
         this.load.image('player', 'images/player.png');
     },
 
@@ -47,8 +47,29 @@ PowPow.Game.prototype = {
         platforms = this.add.group();
         platforms.enableBody = true;
         var ground = platforms.create(0, this.world.height - 64, 'ground');
-        ground.scale.setTo(4, 2);
+        ground.scale.setTo(4.5, 2);
         ground.body.immovable = true;
+        
+        var ledge = platforms.create(-150, 400, 'ground');
+        ledge.body.immovable = true;
+    
+        ledge = platforms.create(240, 615, 'ground');
+        ledge.body.immovable = true;
+    
+        ledge = platforms.create(500, 250, 'ground');
+        ledge.body.immovable = true;
+    
+        ledge = platforms.create(700, 750, 'ground');
+        ledge.body.immovable = true;
+        
+        ledge = platforms.create(900, 500, 'ground');
+        ledge.body.immovable = true;
+        
+        ledge = platforms.create(1300, 700, 'ground');
+        ledge.body.immovable = true;
+        
+        ledge = platforms.create(1500, 300, 'ground');
+        ledge.body.immovable = true;
         
         player = this.add.sprite(32, this.world.height - 150, 'player');
         this.physics.arcade.enable(player);
