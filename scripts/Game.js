@@ -36,7 +36,8 @@ PowPow.Game.prototype = {
     preload: function() {
         this.load.image('city', 'images/maps/city/city.jpg');
         this.load.image('ground', 'images/maps/city/city_platform.png');
-        this.load.image('player', 'images/player.png');
+        // this.load.image('player', 'images/player.png');
+        this.load.spritesheet('player', 'images/sprite/soldier.png', 175, 200, 10);
     },
 
     create: function () {
@@ -71,12 +72,14 @@ PowPow.Game.prototype = {
         ledge = platforms.create(1500, 300, 'ground');
         ledge.body.immovable = true;
         
-        player = this.add.sprite(32, this.world.height - 150, 'player');
+        player = this.add.sprite(32, this.world.height - 300, 'player');
         this.physics.arcade.enable(player);
         
         player.body.bounce.y = 0.2;
         player.body.gravity.y = 600;
         player.body.collideWorldBounds = true;
+        
+        player.animations.add('left', [0, 1, 2, 3, 4], 20, true);
         
         keys = this.input.keyboard.addKeys({ 
             'up': Phaser.KeyCode.W, 'down': Phaser.KeyCode.S, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D 
@@ -93,12 +96,16 @@ PowPow.Game.prototype = {
         
         if (keys.left.isDown) {
             player.body.velocity.x = -300;
+            player.animations.play('left');
         }
         else if (keys.right.isDown) {
             player.body.velocity.x = 300;
         }
         else {
             // player.animations.stop();
+            player.animations.stop();
+
+            player.frame = 9;
         }
         
         if (keys.up.isDown && player.body.touching.down) {
