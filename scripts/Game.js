@@ -32,7 +32,8 @@ PowPow.Game.prototype = {
     },
 
     create: function () {
-        this.add.tileSprite(0, 0, 800, 600, 'sky');
+        this.add.tileSprite(0, 0, 1600, 900, 'sky');
+        this.world.setBounds(0, 0, 1600, 900);
     },
 
     update: function () {
