@@ -72,13 +72,13 @@ var Weapon = {};
 //////// Auto handgun ////////
 
 Weapon.AutoHG = function(game) {
-    Phaser.Group.call(this, game, game.world, 'Handgun', false, true, Phaser.Physics.ARCADE);
+    Phaser.Group.call(this, game, game.world, 'AutoHG', false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
     this.bulletSpeed = 600;
     this.fireRate = 100;
 
-    for (var i = 0; i < 16; i++) {
+    for (var i = 0; i < 64; ++i) {
         this.add(new Bullet(game, 'bullet'), true);
     }
 
@@ -92,8 +92,8 @@ Weapon.AutoHG.prototype.fire = function(source) {
     if (this.game.time.time < this.nextFire) {
         return;
     }
-    var x = source.x + 10;
-    var y = source.y + 10;
+    var x = source.x + 16;
+    var y = source.y + 16;
 
     this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
 
@@ -102,6 +102,8 @@ Weapon.AutoHG.prototype.fire = function(source) {
 
 var player;
 var platforms;
+var weapons = [];
+var currentWeapon;
 
 var keys;
 
@@ -168,7 +170,15 @@ PowPow.Game.prototype = {
         
         // player animation frames
         //player.animations.add('left', [0, 1, 2, 3, 4], 20, true);
-        
+
+
+        weapons.push(new Weapon.AutoHG(this.game));
+        currentWeapon = 0;
+
+        for (var i = 0; i < weapons.length; ++i) {
+            weapons[i].visible = false;
+        }
+
         // create an object which stores the input keys for movement 
         keys = this.input.keyboard.addKeys({ 
             'up': Phaser.KeyCode.W, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D 
@@ -181,6 +191,10 @@ PowPow.Game.prototype = {
     update: function () {
         // enable/check collision between the player and the platforms
         this.physics.arcade.collide(player, platforms);
+
+        //for (var i = 0; i < weapons.length; ++i) {
+        //    this.physics.arcade.collide(weapons[i], platforms);
+        //}
         
         // when a key is not pressed don't want the player to move
         player.body.velocity.x = 0;
@@ -188,7 +202,7 @@ PowPow.Game.prototype = {
         // move the player left if a key is pressed
         if (keys.left.isDown) {
             player.body.velocity.x = -300;
-            player.animations.play('left');
+            //player.animations.play('left');
         }
         // move the player right if d key is pressed
         else if (keys.right.isDown) {
@@ -196,13 +210,17 @@ PowPow.Game.prototype = {
         }
         // otherwise stop the animation and display the standing frame
         else {
-            player.animations.stop();
+            //player.animations.stop();
             player.frame = 9;
         }
         
         // allow the player to jump if they press the w key and the are currently standing on a platform  
         if (keys.up.isDown && player.body.touching.down) {
             player.body.velocity.y = -600;
+        }
+
+        if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+            weapons[currentWeapon].fire(player);
         }
     },
 
