@@ -75,7 +75,7 @@ Weapon.AutoHG = function(game) {
     Phaser.Group.call(this, game, game.world, 'AutoHG', false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
-    this.bulletSpeed = 600;
+    this.bulletSpeed = 1000;
     this.fireRate = 200;
 
     for (var i = 0; i < 16; ++i) {
@@ -88,14 +88,14 @@ Weapon.AutoHG = function(game) {
 Weapon.AutoHG.prototype = Object.create(Phaser.Group.prototype);
 Weapon.AutoHG.prototype.constructor = Weapon.AutoHG;
 
-Weapon.AutoHG.prototype.fire = function(source) {
+Weapon.AutoHG.prototype.fire = function(source, angle) {
     if (this.game.time.time < this.nextFire) {
         return;
     }
     var x = source.x + 16;
     var y = source.y + 16;
-
-    this.getFirstExists(false).fire(x, y, 0, this.bulletSpeed, 0, 0);
+    
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
 
     this.nextFire = this.game.time.time + this.fireRate;
 };
@@ -218,9 +218,14 @@ PowPow.Game.prototype = {
             player.body.velocity.y = -600;
         }
 
-        if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-            weapons[currentWeapon].fire(player);
-            console.log("this");
+        if (this.input.activePointer.leftButton.isDown) {
+            var angle = Math.atan2(this.input.y + this.camera.y - player.y, this.input.x + this.camera.x - player.x) * (180/Math.PI);
+            console.log(angle);
+            // console.log(player.x + ' ' + player.y);
+            weapons[currentWeapon].fire(player, angle);
+        }
+        if (this.input.mouse.onMouseUp) {
+            // do nothing
         }
     },
 
