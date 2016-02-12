@@ -76,9 +76,9 @@ Weapon.AutoHG = function(game) {
 
     this.nextFire = 0;
     this.bulletSpeed = 600;
-    this.fireRate = 100;
+    this.fireRate = 200;
 
-    for (var i = 0; i < 64; ++i) {
+    for (var i = 0; i < 16; ++i) {
         this.add(new Bullet(game, 'bullet'), true);
     }
 
@@ -106,7 +106,6 @@ var weapons = [];
 var currentWeapon;
 
 var keys;
-
 
 PowPow.Game.prototype = {
 
@@ -175,9 +174,9 @@ PowPow.Game.prototype = {
         weapons.push(new Weapon.AutoHG(this.game));
         currentWeapon = 0;
 
-        for (var i = 0; i < weapons.length; ++i) {
-            weapons[i].visible = false;
-        }
+        // for (var i = 0; i < weapons.length; ++i) {
+        //     weapons[i].visible = true;
+        // }
 
         // create an object which stores the input keys for movement 
         keys = this.input.keyboard.addKeys({ 
@@ -221,6 +220,7 @@ PowPow.Game.prototype = {
 
         if (this.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             weapons[currentWeapon].fire(player);
+            console.log("this");
         }
     },
 
