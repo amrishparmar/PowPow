@@ -88,6 +88,7 @@ Weapon.AutoHG = function(game) {
 Weapon.AutoHG.prototype = Object.create(Phaser.Group.prototype);
 Weapon.AutoHG.prototype.constructor = Weapon.AutoHG;
 
+/* fire the AutoHG weapon */
 Weapon.AutoHG.prototype.fire = function(source, angle) {
     if (this.game.time.time < this.nextFire) {
         return;
@@ -99,6 +100,8 @@ Weapon.AutoHG.prototype.fire = function(source, angle) {
 
     this.nextFire = this.game.time.time + this.fireRate;
 };
+
+
 
 var player;
 var platforms;
@@ -134,7 +137,6 @@ PowPow.Game.prototype = {
         var ground = platforms.create(0, this.world.height - 64, 'ground');
         ground.scale.setTo(4.5, 2);
         ground.body.immovable = true;
-        
         
         // create a bunch of platforms based on the game design docs
         var ledge = platforms.create(-150, 400, 'ground');
@@ -220,12 +222,7 @@ PowPow.Game.prototype = {
 
         if (this.input.activePointer.leftButton.isDown) {
             var angle = Math.atan2(this.input.y + this.camera.y - player.y, this.input.x + this.camera.x - player.x) * (180/Math.PI);
-            console.log(angle);
-            // console.log(player.x + ' ' + player.y);
             weapons[currentWeapon].fire(player, angle);
-        }
-        if (this.input.mouse.onMouseUp) {
-            // do nothing
         }
     },
 
