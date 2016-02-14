@@ -96,12 +96,11 @@ Weapon.AutoHG.prototype.fire = function(source, angle) {
     var x = source.x + 16;
     var y = source.y + 16;
     
+    console.log(this.getFirstExists(false));
     this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
 
     this.nextFire = this.game.time.time + this.fireRate;
 };
-
-
 
 var player;
 var platforms;
@@ -132,9 +131,11 @@ PowPow.Game.prototype = {
         // using arcade physics for now
         this.physics.startSystem(Phaser.Physics.ARCADE);
         
+        // create the platforms group and the ground
         platforms = this.add.group();
         platforms.enableBody = true;
         var ground = platforms.create(0, this.world.height - 64, 'ground');
+        // scale the ground so it stretches across the screen
         ground.scale.setTo(4.5, 2);
         ground.body.immovable = true;
         
@@ -165,8 +166,8 @@ PowPow.Game.prototype = {
         this.physics.arcade.enable(player);
         
         // enable gravity and collision with side of screen
-        player.body.bounce.y = 0.2;
-        player.body.gravity.y = 600;
+        player.body.bounce.y = 0.15;
+        player.body.gravity.y = 1400;
         player.body.collideWorldBounds = true;
         
         // player animation frames
@@ -175,9 +176,10 @@ PowPow.Game.prototype = {
 
         weapons.push(new Weapon.AutoHG(this.game));
         currentWeapon = 0;
-
-        // for (var i = 0; i < weapons.length; ++i) {
-        //     weapons[i].visible = true;
+        
+        // hide anything that isn't the current weapon
+        // for (var i = 1; i < weapons.length; ++i) {
+        //     weapons[i].visible = false;
         // }
 
         // create an object which stores the input keys for movement 
@@ -192,10 +194,11 @@ PowPow.Game.prototype = {
     update: function () {
         // enable/check collision between the player and the platforms
         this.physics.arcade.collide(player, platforms);
-
-        //for (var i = 0; i < weapons.length; ++i) {
-        //    this.physics.arcade.collide(weapons[i], platforms);
-        //}
+        
+        // check collision between shot bullets and platforms
+        this.physics.arcade.collide(weapons[currentWeapon], platforms, function(bullet, platform) {
+            bullet.kill();
+        });
         
         // when a key is not pressed don't want the player to move
         player.body.velocity.x = 0;
@@ -217,7 +220,7 @@ PowPow.Game.prototype = {
         
         // allow the player to jump if they press the w key and the are currently standing on a platform  
         if (keys.up.isDown && player.body.touching.down) {
-            player.body.velocity.y = -600;
+            player.body.velocity.y = -900;
         }
 
         if (this.input.activePointer.leftButton.isDown) {
