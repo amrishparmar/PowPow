@@ -76,7 +76,7 @@ Weapon.AutoHG = function(game) {
 
     this.nextFire = 0;
     this.bulletSpeed = 1000;
-    this.fireRate = 200;
+    this.fireRate = 400;
 
     for (var i = 0; i < 16; ++i) {
         this.add(new Bullet(game, 'bullet'), true);
@@ -102,8 +102,139 @@ Weapon.AutoHG.prototype.fire = function(source, angle) {
     this.nextFire = this.game.time.time + this.fireRate;
 };
 
+//////// Auto handgun ////////
+
+Weapon.AutoHG = function(game) {
+    Phaser.Group.call(this, game, game.world, 'AutoHG', false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 1000;
+    this.fireRate = 400;
+
+    for (var i = 0; i < 16; ++i) {
+        this.add(new Bullet(game, 'bullet'), true);
+    }
+
+    return this;
+};
+
+Weapon.AutoHG.prototype = Object.create(Phaser.Group.prototype);
+Weapon.AutoHG.prototype.constructor = Weapon.AutoHG;
+
+/* fire the AutoHG weapon */
+Weapon.AutoHG.prototype.fire = function(source, angle) {
+    if (this.game.time.time < this.nextFire) {
+        return;
+    }
+    var x = source.x + 16;
+    var y = source.y + 16;
+    
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+};
+
+//////// Machine gun ////////
+
+Weapon.MachineGun = function(game) {
+    Phaser.Group.call(this, game, game.world, 'MachineGun', false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 1200;
+    this.fireRate = 100;
+
+    for (var i = 0; i < 32; ++i) {
+        this.add(new Bullet(game, 'bullet'), true);
+    }
+
+    return this;
+};
+
+Weapon.MachineGun.prototype = Object.create(Phaser.Group.prototype);
+Weapon.MachineGun.prototype.constructor = Weapon.MachineGun;
+
+/* fire the MachineGun weapon */
+Weapon.MachineGun.prototype.fire = function(source, angle) {
+    if (this.game.time.time < this.nextFire) {
+        return;
+    }
+    var x = source.x + 16;
+    var y = (source.y + source.height / 2) + this.game.rnd.between(-8, 8);
+    
+    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-5, 5), this.bulletSpeed, 0, 0);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+};
+
+//////// Shotgun ////////
+
+Weapon.Shotgun = function(game) {
+    Phaser.Group.call(this, game, game.world, 'Shotgun', false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 900;
+    this.fireRate = 800;
+
+    for (var i = 0; i < 64; ++i) {
+        this.add(new Bullet(game, 'bullet'), true);
+    }
+
+    return this;
+};
+
+Weapon.Shotgun.prototype = Object.create(Phaser.Group.prototype);
+Weapon.Shotgun.prototype.constructor = Weapon.Shotgun;
+
+/* fire the Shotgun weapon */
+Weapon.Shotgun.prototype.fire = function(source, angle) {
+    if (this.game.time.time < this.nextFire) {
+        return;
+    }
+    var x = source.x + 16;
+    var y = source.y + 16;
+    
+    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-10, 5), this.bulletSpeed, 0, 0);
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
+    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(5, 10), this.bulletSpeed, 0, 0);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+};
+
+//////// Rockets ////////
+
+Weapon.Rockets = function(game) {
+    Phaser.Group.call(this, game, game.world, 'Rockets', false, true, Phaser.Physics.ARCADE);
+
+    this.nextFire = 0;
+    this.bulletSpeed = 700;
+    this.fireRate = 1250;
+
+    for (var i = 0; i < 8; ++i) {
+        this.add(new Bullet(game, 'bullet'), true);
+    }
+
+    return this;
+};
+
+Weapon.Rockets.prototype = Object.create(Phaser.Group.prototype);
+Weapon.Rockets.prototype.constructor = Weapon.Rockets;
+
+/* fire the AutoHG weapon */
+Weapon.Rockets.prototype.fire = function(source, angle) {
+    if (this.game.time.time < this.nextFire) {
+        return;
+    }
+    var x = source.x + 16;
+    var y = source.y + 16;
+    
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 500);
+
+    this.nextFire = this.game.time.time + this.fireRate;
+};
+
 var player;
 var platforms;
+
 var weapons = [];
 var currentWeapon;
 
@@ -174,7 +305,10 @@ PowPow.Game.prototype = {
         //player.animations.add('left', [0, 1, 2, 3, 4], 20, true);
 
 
-        weapons.push(new Weapon.AutoHG(this.game));
+        weapons.push(new Weapon.AutoHG(this));
+        weapons.push(new Weapon.MachineGun(this));
+        weapons.push(new Weapon.Shotgun(this));
+        weapons.push(new Weapon.Rockets(this));
         currentWeapon = 0;
         
         // hide anything that isn't the current weapon
@@ -184,7 +318,8 @@ PowPow.Game.prototype = {
 
         // create an object which stores the input keys for movement 
         keys = this.input.keyboard.addKeys({ 
-            'up': Phaser.KeyCode.W, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D 
+            'up': Phaser.KeyCode.W, 'left': Phaser.KeyCode.A, 'right': Phaser.KeyCode.D,
+            'weap1': Phaser.KeyCode.ONE, 'weap2': Phaser.KeyCode.TWO, 'weap3': Phaser.KeyCode.THREE, 'weap4': Phaser.KeyCode.FOUR
         });
         
         // allow the camera to follow and be centered on the player
@@ -226,6 +361,19 @@ PowPow.Game.prototype = {
         if (this.input.activePointer.leftButton.isDown) {
             var angle = Math.atan2(this.input.y + this.camera.y - player.y, this.input.x + this.camera.x - player.x) * (180/Math.PI);
             weapons[currentWeapon].fire(player, angle);
+        }
+        
+        if (keys.weap1.isDown) {
+            currentWeapon = 0;
+        }
+        else if (keys.weap2.isDown) {
+            currentWeapon = 1;
+        }
+        else if (keys.weap3.isDown) {
+            currentWeapon = 2;
+        }
+        else if (keys.weap4.isDown) {
+            currentWeapon = 3;
         }
     },
 
