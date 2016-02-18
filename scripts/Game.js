@@ -22,7 +22,6 @@ PowPow.Game = function (game) {
 
     //  You can use any of these from any function within this State.
     //  But do consider them as being 'reserved words', i.e. don't create a property for your own game called "world" or you'll over-write the world reference.
-
 };
 
 var Bullet = function(game, key) {
@@ -96,7 +95,6 @@ Weapon.AutoHG.prototype.fire = function(source, angle) {
     var x = source.x + 16;
     var y = source.y + 16;
     
-    console.log(this.getFirstExists(false));
     this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
 
     this.nextFire = this.game.time.time + this.fireRate;
@@ -200,10 +198,10 @@ Weapon.Shotgun.prototype.fire = function(source, angle) {
     this.nextFire = this.game.time.time + this.fireRate;
 };
 
-//////// Rockets ////////
+//////// GrenadeLauncher ////////
 
-Weapon.Rockets = function(game) {
-    Phaser.Group.call(this, game, game.world, 'Rockets', false, true, Phaser.Physics.ARCADE);
+Weapon.GrenadeLauncher = function(game) {
+    Phaser.Group.call(this, game, game.world, 'GrenadeLauncher', false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
     this.bulletSpeed = 700;
@@ -216,11 +214,11 @@ Weapon.Rockets = function(game) {
     return this;
 };
 
-Weapon.Rockets.prototype = Object.create(Phaser.Group.prototype);
-Weapon.Rockets.prototype.constructor = Weapon.Rockets;
+Weapon.GrenadeLauncher.prototype = Object.create(Phaser.Group.prototype);
+Weapon.GrenadeLauncher.prototype.constructor = Weapon.GrenadeLauncher;
 
 /* fire the AutoHG weapon */
-Weapon.Rockets.prototype.fire = function(source, angle) {
+Weapon.GrenadeLauncher.prototype.fire = function(source, angle) {
     if (this.game.time.time < this.nextFire) {
         return;
     }
@@ -308,7 +306,7 @@ PowPow.Game.prototype = {
         weapons.push(new Weapon.AutoHG(this));
         weapons.push(new Weapon.MachineGun(this));
         weapons.push(new Weapon.Shotgun(this));
-        weapons.push(new Weapon.Rockets(this));
+        weapons.push(new Weapon.GrenadeLauncher(this));
         currentWeapon = 0;
         
         // hide anything that isn't the current weapon
