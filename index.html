@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<title>Pow Pow</title>
+	<link rel="stylesheet" href="css/styles.css" type="text/css">
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="icon" href="favicon.ico">
+	<script src="scripts/phaser.min.js" type="text/javascript"></script>
+	<script src="scripts/Boot.js" type="text/javascript"></script>
+	<script src="scripts/Preloader.js" type="text/javascript"></script>
+	<script src="scripts/MainMenu.js" type="text/javascript"></script>
+	<script src="scripts/Game.js" type="text/javascript"></script>
+</head>
+<body>
+
+<div id="gameContainer"></div>
+
+<script type="text/javascript">
+
+window.onload = function() {
+
+	//	Create your Phaser game and inject it into the gameContainer div.
+	//	We did it in a window.onload event, but you can do it anywhere (requireJS load, anonymous function, jQuery dom ready, - whatever floats your boat)
+	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'gameContainer');
+
+	//	Add the States your game has.
+	//	You don't have to do this in the html, it could be done in your Boot state too, but for simplicity I'll keep it here.
+
+	 game.state.add('Boot', PowPow.Boot);
+	 game.state.add('Preloader', PowPow.Preloader);
+	 game.state.add('MainMenu', PowPow.MainMenu);
+	 game.state.add('Game', PowPow.Game);
+
+	//	Now start the Boot state.
+//	game.state.start('Boot');
+	game.state.start('Game');
+};
+
+</script>
+
+</body>
+</html>
