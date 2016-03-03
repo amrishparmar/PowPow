@@ -26,7 +26,3 @@ Multiplayer online role playing game made with Phaser and Socket.io
 then:
 
 	$ node app
-
-When the app is running, go to:
-
-	http://localhost:3000/

@@ -50,7 +50,9 @@ exports.login = function(req, res) {
                 res.json({
                     success: true,
                     user: userData
+                    
                 });
+                
             } else {
                 // res.render('signin', {
                 //     error: 'Incorrect password'

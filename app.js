@@ -22,6 +22,7 @@ var sio        = io.listen(server);
 
 //io.setNoDelay(true);
 sio.set('log level', 1);
+
 // Bootstrap db connection
 var db         = mongoose.connect(config.db, { auto_reconnect: true });
 

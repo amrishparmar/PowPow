@@ -56,6 +56,7 @@ module.exports = function(io, socket){
     
     socket.on('shot', function(data) {
        if (player) {
+           data._id = player._id;
            socket.broadcast.emit('shotFired', data);
           
        }
