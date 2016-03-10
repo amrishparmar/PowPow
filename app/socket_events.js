@@ -16,11 +16,11 @@ module.exports = function(io, socket){
         // console.log('Session from socket.io', socket.handshake);
         var player_id = data._id || nextId++;
 
-        if(sockets[player_id]){
+        // if(sockets[player_id]){
             //socket.emit('alert', { message: "You are already logged in" });
             // socket.disconnect();
             // return;
-        }
+        // }
 
         sockets[player_id] = socket;
 
@@ -50,7 +50,7 @@ module.exports = function(io, socket){
             player.direction = data.direction;
 
             // Broadcast position change to all other clients
-             socket.broadcast.emit('moved', player);
+            socket.broadcast.emit('moved', player);
         }
     });
     

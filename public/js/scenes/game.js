@@ -1,9 +1,7 @@
-//var weapons = [];
-
-
 (function() {
 
   var GameScene = function(game) {
+    // phaser properties
     this.game; //  a reference to the currently running game (Phaser.Game)
     this.add; //  used to add sprites, text, groups, etc (Phaser.GameObjectFactory)
     this.camera; //  a reference to the game camera (Phaser.Camera)
@@ -23,6 +21,7 @@
     this.world;
     this.input;
     
+    // our own properties
     this.weapons;
     this.currentWeapon;
     this.playerHealthBar;
@@ -347,6 +346,7 @@
       self.movePlayer(_player);
     });
 
+    // Players has shot 
     game.socket.on('shotFired', function(bullet) {
       self.addRemoteBullet(bullet);
     });
