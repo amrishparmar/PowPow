@@ -97,7 +97,7 @@
 
     // Username prompt
     username.events.onInputDown.add(function(){
-      var text = window.prompt("Username","");
+      var text = window.prompt("Please enter your username","");
      
       // username     = text;
       placeholder1.text = text;
@@ -128,10 +128,10 @@
       //   }
       // });
       
-      var text = window.prompt("Type password","");
+      var text = window.prompt("Please enter your password","");
       var placeholder = '';
       
-      for (var i=0; i < text.length; i++){
+      for (var i = 0; i < text.length; i++){
         placeholder += '*';
       }
       user_password     = text;
