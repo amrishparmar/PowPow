@@ -9,7 +9,6 @@
         self.type = 'local';
         self.direction = params.direction || 'right';
         self.currentWeapon = 0;
-        // game.weapons = weapons;
         self.health = 100;
 
         // set the position to start at either the params passed in or 505, 540
@@ -59,6 +58,7 @@
             'up': Phaser.KeyCode.W,
             'left': Phaser.KeyCode.A,
             'right': Phaser.KeyCode.D,
+            'space': Phaser.KeyCode.SPACEBAR,
             'weap1': Phaser.KeyCode.ONE,
             'weap2': Phaser.KeyCode.TWO,
             'weap3': Phaser.KeyCode.THREE,
@@ -81,8 +81,8 @@
             cursors = self.cursors,
             keys = self.keys,
             moveParams = {},
-            shotParams = {},
-            positionOffset = 10;
+            shotParams = {};
+            // positionOffset = 10;
 
         // enable collision between the player and other collision objects
         if (game.groups.collisionGroup) {
@@ -98,27 +98,32 @@
             bullet.kill();
         });
         
-      
-        
-        for (var i = 0; i < game.weapons.length; ++i) {
-            phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
-                bullet.kill();
-                if (self.health > 0) {
-                    // reduce health
-                    self.health -= 10;
-                    // update health bar
-                    game.playerHealthBar.setPercent(self.health);
-                }
-                else{
-                    self.sprite.kill();
-                   game.socket.disconnect();
-                }
-                
-            });
+        if (self.health == 0) {
+            self.sprite.x = 50 + Math.floor(1500 * Math.random());
+            self.sprite.y = 100;
+            self.health = 100;
+            game.playerHealthBar.setPercent(self.health);
+        }
+        else {
+            for (var i = 0; i < game.weapons.length; ++i) {
+                phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
+                    bullet.kill();
+                    if (self.health > 0) {
+                        // reduce health
+                        self.health -= 10;
+                        // update health bar
+                        game.playerHealthBar.setPercent(self.health);
+                    }
+                    else {
+                        //self.sprite.kill();
+                    }
+                });
+            }
         }
         
+      
         
-       
+        
         // set gravitational properties
         player.body.bounce.y = 0.15;
         player.body.gravity.y = 1400;
@@ -141,7 +146,7 @@
         }
 
         // shoot the bullets whilst the left mouse button is clicked
-        if (phaser.input.activePointer.isDown) {
+        if (phaser.input.activePointer.isDown || keys.space.isDown) {
             // get the angle from the player to the mouse taking into account camera coords as well
             var angle = Math.atan2(phaser.input.y + phaser.camera.y - player.y, phaser.input.x + phaser.camera.x - player.x) * (180 / Math.PI);
             game.weapons[self.currentWeapon].fire(player.x, player.y, angle);
@@ -196,8 +201,8 @@
         }
 
         // let the text label follow the player
-        self.playerName.x = (player.x + (player.width / 2)) - (self.playerName.textWidth / 2);
-        self.playerName.y = player.y - self.playerName.textHeight;
+        self.playerName.x = (player.body.x + (player.width / 2)) - (self.playerName.textWidth / 2);
+        self.playerName.y = player.body.y - self.playerName.textHeight;
 
         player.destinationX = 0;
         player.destinationY = 0;
