@@ -1,7 +1,5 @@
 ! function() {
 
-    var baseVelocity = 300;
-
     function Character(params) {
         var self = this;
         self._id = params._id;
@@ -9,7 +7,6 @@
         self.type = 'remote';
         self.direction = params.direction || 'down';
         self.currentWeapon = 0;
-        // game.weapons =weapons;
         self.health = 101;
 
         var posX = params.x || 0;
@@ -57,14 +54,18 @@
         var self = this;
         var player = self.sprite,
             positionOffset = 5;
+            
+        player.body.bounce.y = 0.15;
+        player.body.gravity.y = 1400;
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
 
-        self.playerName.x = (player.x + (player.width / 2)) - (self.playerName.textWidth / 2);
-        self.playerName.y = player.y - self.playerName.textHeight;
+        self.playerName.x = (player.body.x + (player.width / 2)) - (self.playerName.textWidth / 2);
+        self.playerName.y = player.body.y - self.playerName.textHeight;
 
-        phaser.physics.arcade.moveToXY(player, self.destinationX, self.destinationY, 10, baseVelocity);
+        // phaser.physics.arcade.moveToXY(player, self.destinationX, self.destinationY, 10, baseVelocity);
+        phaser.physics.arcade.moveToXY(player, self.destinationX, self.destinationY, 10, 50);
 
         if (player.body.velocity.x) {
             self.sprite.animations.play('walk-' + self.direction, 10, true);
@@ -77,19 +78,12 @@
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
         }
 
-        // phaser.physics.arcade.collide(game.weapons[self.currentWeapon], self.sprite, function(bullet, player) {
-        //     bullet.kill();
-        // });
-
 
         for (var i = 0; i < game.weapons.length; ++i) {
             phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
                 bullet.kill();
             });
         }
-        
-        
-
     };
 
     game.entities = game.entities || {};
