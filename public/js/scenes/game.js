@@ -1,4 +1,5 @@
-var weapons = [];
+//var weapons = [];
+
 
 (function() {
 
@@ -21,8 +22,10 @@ var weapons = [];
     this.rnd; //  the repeatable random number generator (Phaser.RandomDataGenerator)
     this.world;
     this.input;
-    this.bullets;
+    
+    this.weapons;
     this.currentWeapon;
+    this.playerHealthBar;
   };
 
   // Preload
@@ -93,7 +96,7 @@ var weapons = [];
     Phaser.Group.call(this, game, game.world, 'AutoHG', false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
-    this.bulletSpeed = 1000;
+    this.bulletSpeed = 1600;
     this.fireRate = 400;
 
     for (var i = 0; i < 16; ++i) {
@@ -125,7 +128,7 @@ var weapons = [];
     Phaser.Group.call(this, game, game.world, 'MachineGun', false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
-    this.bulletSpeed = 1200;
+    this.bulletSpeed = 2000;
     this.fireRate = 100;
 
     for (var i = 0; i < 32; ++i) {
@@ -157,7 +160,7 @@ var weapons = [];
     Phaser.Group.call(this, game, game.world, 'Shotgun', false, true, Phaser.Physics.ARCADE);
 
     this.nextFire = 0;
-    this.bulletSpeed = 900;
+    this.bulletSpeed = 1200;
     this.fireRate = 800;
 
     for (var i = 0; i < 64; ++i) {
@@ -255,19 +258,33 @@ var weapons = [];
 
     ledge = platforms.create(1500, 300, 'ground');
     ledge.body.immovable = true;
+    
+    // configuration for health bar
+    var barConfig = {
+      x: 60,
+      y: 30,
+      width: 100,
+      height: 20,
+      isFixedToCamera: true
+    };
+    
+    game.playerHealthBar = new HealthBar(this.game, barConfig);
+
+   
+    
     // Collision group
     game.groups.collisionGroup = phaser.add.group();
     game.groups.collisionGroup.enableBody = true;
     game.groups.collisionGroup.physicsBodyType = Phaser.Physics.ARCADE;
 
-
-
     // this.currentWeapon = 0;
+    
+    game.weapons = [];
 
-    weapons.push(new Weapon.AutoHG(this));
-    weapons.push(new Weapon.MachineGun(this));
-    weapons.push(new Weapon.Shotgun(this));
-    weapons.push(new Weapon.GrenadeLauncher(this));
+    game.weapons.push(new Weapon.AutoHG(this));
+    game.weapons.push(new Weapon.MachineGun(this));
+    game.weapons.push(new Weapon.Shotgun(this));
+    game.weapons.push(new Weapon.GrenadeLauncher(this));
 
     // Player
     var user_id;
@@ -358,10 +375,10 @@ var weapons = [];
   GameScene.prototype.update = function(player) {
     this.updatePlayers();
 
-    for (var i = 0; i < weapons.length; ++i) {
-      phaser.physics.arcade.collide(weapons[i], platforms, function(bullet, platform) {
+    for (var i = 0; i < game.weapons.length; ++i) {
+      phaser.physics.arcade.collide(game.weapons[i], platforms, function(bullet, platform) {
         bullet.kill();
-      // console.log(user_id);
+        // console.log(user_id);
       });
 
 
@@ -393,7 +410,7 @@ var weapons = [];
   };
 
   GameScene.prototype.addRemoteBullet = function(bullet) {
-    weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle);
+    game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle);
   }
 
   GameScene.prototype.moveRemotePlayer = function(player, data) {
@@ -425,7 +442,7 @@ var weapons = [];
   window.onfocus = function() {
     _.each(game.players, function(player) {
       if (player.type === 'remote') {
-        // console.log('move player', player);
+        //console.log('move player', player);
         phaser.add.tween(player.sprite.body).to({
           x: player.destinationX,
           y: player.destinationY

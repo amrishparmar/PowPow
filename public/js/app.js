@@ -2,14 +2,14 @@
 
   // App variables
   var game           = root.game;
-  game.title         = 'Testing';
+  game.title         = 'Pow Pow';
   game.entities      = {};
   game.scenes        = {};
   game.groups        = {};
   game.players       = {};
   game.enableDebug   = false;
   game.use_random_id = false; // Testing (no session)
-
+  
   game.socket     = io.connect(location.protocol + '//' + location.host);
   noop            = function(){};
 
@@ -41,9 +41,9 @@
   //   return false;
   // };
 
-  // Initializing Phaser
-  var target    = navigator.isCocoonJS ? '' : 'game';
-  window.phaser = new Phaser.Game(game.gameWidth, game.gameHeight, Phaser.AUTO, target);
+  
+  
+  window.phaser = new Phaser.Game(game.gameWidth, game.gameHeight, Phaser.AUTO, "game");
 
   // Ready?
   window.onload = function(){

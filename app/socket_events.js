@@ -17,9 +17,9 @@ module.exports = function(io, socket){
         var player_id = data._id || nextId++;
 
         if(sockets[player_id]){
-            socket.emit('alert', { message: "You are already logged in" });
-            socket.disconnect();
-            return;
+            //socket.emit('alert', { message: "You are already logged in" });
+            // socket.disconnect();
+            // return;
         }
 
         sockets[player_id] = socket;
@@ -56,9 +56,8 @@ module.exports = function(io, socket){
     
     socket.on('shot', function(data) {
        if (player) {
-           data._id = player._id;
+           data._id = player.id;
            socket.broadcast.emit('shotFired', data);
-          
        }
     });  
 

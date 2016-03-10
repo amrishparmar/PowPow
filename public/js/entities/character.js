@@ -8,9 +8,9 @@
         self.name = params.name;
         self.type = 'remote';
         self.direction = params.direction || 'down';
-
         self.currentWeapon = 0;
-        self.weapons = weapons;
+        // game.weapons =weapons;
+        self.health = 101;
 
         var posX = params.x || 0;
         var posY = params.y || 0;
@@ -66,8 +66,6 @@
 
         phaser.physics.arcade.moveToXY(player, self.destinationX, self.destinationY, 10, baseVelocity);
 
-
-
         if (player.body.velocity.x) {
             self.sprite.animations.play('walk-' + self.direction, 10, true);
         }
@@ -78,17 +76,19 @@
         if (game.groups.collisionGroup) {
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
         }
-        
-        // phaser.physics.arcade.collide(self.weapons[self.currentWeapon], self.sprite, function(bullet, player) {
+
+        // phaser.physics.arcade.collide(game.weapons[self.currentWeapon], self.sprite, function(bullet, player) {
         //     bullet.kill();
         // });
-        
-        
-        for (var i = 0; i < weapons.length; ++i) {
-            phaser.physics.arcade.collide(weapons[i], self.sprite, function(bullet, player) {
+
+
+        for (var i = 0; i < game.weapons.length; ++i) {
+            phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
                 bullet.kill();
             });
         }
+        
+        
 
     };
 

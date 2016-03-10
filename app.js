@@ -19,7 +19,6 @@ var app        = express();
 var server     = app.listen(config.port);
 var sio        = io.listen(server);
 
-
 //io.setNoDelay(true);
 sio.set('log level', 1);
 

@@ -4,68 +4,68 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 (function() {
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, global) {
 
   /**
-   * IO namespace.
-   *
-   * @namespace
-   */
+  * IO namespace.
+  *
+  * @namespace
+  */
 
   var io = exports;
 
   /**
-   * Socket.IO version
-   *
-   * @api public
-   */
+  * Socket.IO version
+  *
+  * @api public
+  */
 
   io.version = '0.9.16';
 
   /**
-   * Protocol implemented.
-   *
-   * @api public
-   */
+  * Protocol implemented.
+  *
+  * @api public
+  */
 
   io.protocol = 1;
 
   /**
-   * Available transports, these will be populated with the available transports
-   *
-   * @api public
-   */
+  * Available transports, these will be populated with the available transports
+  *
+  * @api public
+  */
 
   io.transports = [];
 
   /**
-   * Keep track of jsonp callbacks.
-   *
-   * @api private
-   */
+  * Keep track of jsonp callbacks.
+  *
+  * @api private
+  */
 
   io.j = [];
 
   /**
-   * Keep track of our io.Sockets
-   *
-   * @api private
-   */
+  * Keep track of our io.Sockets
+  *
+  * @api private
+  */
   io.sockets = {};
 
 
   /**
-   * Manages connections to hosts.
-   *
-   * @param {String} uri
-   * @Param {Boolean} force creation of new socket (defaults to false)
-   * @api public
-   */
+  * Manages connections to hosts.
+  *
+  * @param {String} uri
+  * @Param {Boolean} force creation of new socket (defaults to false)
+  * @api public
+  */
 
   io.connect = function (host, details) {
     var uri = io.util.parseUri(host)
@@ -106,33 +106,33 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 
 })('object' === typeof module ? module.exports : (this.io = {}), this);
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, global) {
 
   /**
-   * Utilities namespace.
-   *
-   * @namespace
-   */
+  * Utilities namespace.
+  *
+  * @namespace
+  */
 
   var util = exports.util = {};
 
   /**
-   * Parses an URI
-   *
-   * @author Steven Levithan <stevenlevithan.com> (MIT license)
-   * @api public
-   */
+  * Parses an URI
+  *
+  * @author Steven Levithan <stevenlevithan.com> (MIT license)
+  * @api public
+  */
 
   var re = /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
 
   var parts = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password',
-               'host', 'port', 'relative', 'path', 'directory', 'file', 'query',
-               'anchor'];
+              'host', 'port', 'relative', 'path', 'directory', 'file', 'query',
+              'anchor'];
 
   util.parseUri = function (str) {
     var m = re.exec(str || '')
@@ -147,11 +147,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Produces a unique url that identifies a Socket.IO connection.
-   *
-   * @param {Object} uri
-   * @api public
-   */
+  * Produces a unique url that identifies a Socket.IO connection.
+  *
+  * @param {Object} uri
+  * @api public
+  */
 
   util.uniqueUri = function (uri) {
     var protocol = uri.protocol
@@ -174,12 +174,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Mergest 2 query strings in to once unique query string
-   *
-   * @param {String} base
-   * @param {String} addition
-   * @api public
-   */
+  * Mergest 2 query strings in to once unique query string
+  *
+  * @param {String} base
+  * @param {String} addition
+  * @api public
+  */
 
   util.query = function (base, addition) {
     var query = util.chunkQuery(base || '')
@@ -196,11 +196,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Transforms a querystring in to an object
-   *
-   * @param {String} qs
-   * @api public
-   */
+  * Transforms a querystring in to an object
+  *
+  * @param {String} qs
+  * @api public
+  */
 
   util.chunkQuery = function (qs) {
     var query = {}
@@ -220,13 +220,13 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Executes the given function when the page is loaded.
-   *
-   *     io.util.load(function () { console.log('page loaded'); });
-   *
-   * @param {Function} fn
-   * @api public
-   */
+  * Executes the given function when the page is loaded.
+  *
+  *     io.util.load(function () { console.log('page loaded'); });
+  *
+  * @param {Function} fn
+  * @api public
+  */
 
   var pageLoaded = false;
 
@@ -239,10 +239,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Adds an event.
-   *
-   * @api private
-   */
+  * Adds an event.
+  *
+  * @api private
+  */
 
   util.on = function (element, event, fn, capture) {
     if (element.attachEvent) {
@@ -253,12 +253,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Generates the correct `XMLHttpRequest` for regular and cross domain requests.
-   *
-   * @param {Boolean} [xdomain] Create a request that can be used cross domain.
-   * @returns {XMLHttpRequest|false} If we can create a XMLHttpRequest.
-   * @api private
-   */
+  * Generates the correct `XMLHttpRequest` for regular and cross domain requests.
+  *
+  * @param {Boolean} [xdomain] Create a request that can be used cross domain.
+  * @returns {XMLHttpRequest|false} If we can create a XMLHttpRequest.
+  * @api private
+  */
 
   util.request = function (xdomain) {
 
@@ -280,15 +280,15 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * XHR based transport constructor.
-   *
-   * @constructor
-   * @api public
-   */
+  * XHR based transport constructor.
+  *
+  * @constructor
+  * @api public
+  */
 
   /**
-   * Change the internal pageLoaded value.
-   */
+  * Change the internal pageLoaded value.
+  */
 
   if ('undefined' != typeof window) {
     util.load(function () {
@@ -297,11 +297,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   }
 
   /**
-   * Defers a function to ensure a spinner is not displayed by the browser
-   *
-   * @param {Function} fn
-   * @api public
-   */
+  * Defers a function to ensure a spinner is not displayed by the browser
+  *
+  * @param {Function} fn
+  * @api public
+  */
 
   util.defer = function (fn) {
     if (!util.ua.webkit || 'undefined' != typeof importScripts) {
@@ -314,10 +314,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Merges two objects.
-   *
-   * @api public
-   */
+  * Merges two objects.
+  *
+  * @api public
+  */
 
   util.merge = function merge (target, additional, deep, lastseen) {
     var seen = lastseen || []
@@ -339,20 +339,20 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Merges prototypes from objects
-   *
-   * @api public
-   */
+  * Merges prototypes from objects
+  *
+  * @api public
+  */
 
   util.mixin = function (ctor, ctor2) {
     util.merge(ctor.prototype, ctor2.prototype);
   };
 
   /**
-   * Shortcut for prototypical and static inheritance.
-   *
-   * @api private
-   */
+  * Shortcut for prototypical and static inheritance.
+  *
+  * @api private
+  */
 
   util.inherit = function (ctor, ctor2) {
     function f() {};
@@ -361,24 +361,24 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Checks if the given object is an Array.
-   *
-   *     io.util.isArray([]); // true
-   *     io.util.isArray({}); // false
-   *
-   * @param Object obj
-   * @api public
-   */
+  * Checks if the given object is an Array.
+  *
+  *     io.util.isArray([]); // true
+  *     io.util.isArray({}); // false
+  *
+  * @param Object obj
+  * @api public
+  */
 
   util.isArray = Array.isArray || function (obj) {
     return Object.prototype.toString.call(obj) === '[object Array]';
   };
 
   /**
-   * Intersects values of two arrays into a third
-   *
-   * @api public
-   */
+  * Intersects values of two arrays into a third
+  *
+  * @api public
+  */
 
   util.intersect = function (arr, arr2) {
     var ret = []
@@ -394,25 +394,25 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Array indexOf compatibility.
-   *
-   * @see bit.ly/a5Dxa2
-   * @api public
-   */
+  * Array indexOf compatibility.
+  *
+  * @see bit.ly/a5Dxa2
+  * @api public
+  */
 
   util.indexOf = function (arr, o, i) {
 
     for (var j = arr.length, i = i < 0 ? i + j < 0 ? 0 : i + j : i || 0;
-         i < j && arr[i] !== o; i++) {}
+        i < j && arr[i] !== o; i++) {}
 
     return j <= i ? -1 : i;
   };
 
   /**
-   * Converts enumerables to array.
-   *
-   * @api public
-   */
+  * Converts enumerables to array.
+  *
+  * @api public
+  */
 
   util.toArray = function (enu) {
     var arr = [];
@@ -424,18 +424,18 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * UA / engines detection namespace.
-   *
-   * @namespace
-   */
+  * UA / engines detection namespace.
+  *
+  * @namespace
+  */
 
   util.ua = {};
 
   /**
-   * Whether the UA supports CORS for XHR.
-   *
-   * @api public
-   */
+  * Whether the UA supports CORS for XHR.
+  *
+  * @api public
+  */
 
   util.ua.hasCORS = 'undefined' != typeof XMLHttpRequest && (function () {
     try {
@@ -448,51 +448,51 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   })();
 
   /**
-   * Detect webkit.
-   *
-   * @api public
-   */
+  * Detect webkit.
+  *
+  * @api public
+  */
 
   util.ua.webkit = 'undefined' != typeof navigator
     && /webkit/i.test(navigator.userAgent);
 
-   /**
-   * Detect iPad/iPhone/iPod.
-   *
-   * @api public
-   */
+  /**
+  * Detect iPad/iPhone/iPod.
+  *
+  * @api public
+  */
 
   util.ua.iDevice = 'undefined' != typeof navigator
       && /iPad|iPhone|iPod/i.test(navigator.userAgent);
 
 })('undefined' != typeof io ? io : module.exports, this);
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports.EventEmitter = EventEmitter;
 
   /**
-   * Event emitter constructor.
-   *
-   * @api public.
-   */
+  * Event emitter constructor.
+  *
+  * @api public.
+  */
 
   function EventEmitter () {};
 
   /**
-   * Adds a listener
-   *
-   * @api public
-   */
+  * Adds a listener
+  *
+  * @api public
+  */
 
   EventEmitter.prototype.on = function (name, fn) {
     if (!this.$events) {
@@ -513,10 +513,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   EventEmitter.prototype.addListener = EventEmitter.prototype.on;
 
   /**
-   * Adds a volatile listener.
-   *
-   * @api public
-   */
+  * Adds a volatile listener.
+  *
+  * @api public
+  */
 
   EventEmitter.prototype.once = function (name, fn) {
     var self = this;
@@ -533,10 +533,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Removes a listener.
-   *
-   * @api public
-   */
+  * Removes a listener.
+  *
+  * @api public
+  */
 
   EventEmitter.prototype.removeListener = function (name, fn) {
     if (this.$events && this.$events[name]) {
@@ -570,10 +570,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Removes all listeners for an event.
-   *
-   * @api public
-   */
+  * Removes all listeners for an event.
+  *
+  * @api public
+  */
 
   EventEmitter.prototype.removeAllListeners = function (name) {
     if (name === undefined) {
@@ -589,10 +589,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Gets all listeners for a certain event.
-   *
-   * @api publci
-   */
+  * Gets all listeners for a certain event.
+  *
+  * @api publci
+  */
 
   EventEmitter.prototype.listeners = function (name) {
     if (!this.$events) {
@@ -611,10 +611,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Emits an event.
-   *
-   * @api public
-   */
+  * Emits an event.
+  *
+  * @api public
+  */
 
   EventEmitter.prototype.emit = function (name) {
     if (!this.$events) {
@@ -650,14 +650,14 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 );
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 /**
- * Based on JSON2 (http://www.JSON.org/js.html).
- */
+* Based on JSON2 (http://www.JSON.org/js.html).
+*/
 
 (function (exports, nativeJSON) {
   "use strict";
@@ -972,24 +972,24 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 );
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io) {
 
   /**
-   * Parser namespace.
-   *
-   * @namespace
-   */
+  * Parser namespace.
+  *
+  * @namespace
+  */
 
   var parser = exports.parser = {};
 
   /**
-   * Packet types.
-   */
+  * Packet types.
+  */
 
   var packets = parser.packets = [
       'disconnect'
@@ -1004,8 +1004,8 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   ];
 
   /**
-   * Errors reasons.
-   */
+  * Errors reasons.
+  */
 
   var reasons = parser.reasons = [
       'transport not supported'
@@ -1014,25 +1014,25 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   ];
 
   /**
-   * Errors advice.
-   */
+  * Errors advice.
+  */
 
   var advice = parser.advice = [
       'reconnect'
   ];
 
   /**
-   * Shortcuts.
-   */
+  * Shortcuts.
+  */
 
   var JSON = io.JSON
     , indexOf = io.util.indexOf;
 
   /**
-   * Encodes a packet.
-   *
-   * @api private
-   */
+  * Encodes a packet.
+  *
+  * @api private
+  */
 
   parser.encodePacket = function (packet) {
     var type = indexOf(packets, packet.type)
@@ -1097,11 +1097,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Encodes multiple messages (payload).
-   *
-   * @param {Array} messages
-   * @api private
-   */
+  * Encodes multiple messages (payload).
+  *
+  * @param {Array} messages
+  * @api private
+  */
 
   parser.encodePayload = function (packets) {
     var decoded = '';
@@ -1118,10 +1118,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Decodes a packet
-   *
-   * @api private
-   */
+  * Decodes a packet
+  *
+  * @api private
+  */
 
   var regexp = /([^:]+):([0-9]+)?(\+)?:([^:]+)?:?([\s\S]*)?/;
 
@@ -1201,11 +1201,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Decodes data payload. Detects multiple messages
-   *
-   * @return {Array} messages
-   * @api public
-   */
+  * Decodes data payload. Detects multiple messages
+  *
+  * @return {Array} messages
+  * @api public
+  */
 
   parser.decodePayload = function (data) {
     // IE doesn't like data[i] for unicode chars, charAt works fine
@@ -1233,25 +1233,25 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   , 'undefined' != typeof io ? io : module.parent.exports
 );
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports.Transport = Transport;
 
   /**
-   * This is the transport template for all supported transport methods.
-   *
-   * @constructor
-   * @api public
-   */
+  * This is the transport template for all supported transport methods.
+  *
+  * @constructor
+  * @api public
+  */
 
   function Transport (socket, sessid) {
     this.socket = socket;
@@ -1259,30 +1259,30 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Apply EventEmitter mixin.
-   */
+  * Apply EventEmitter mixin.
+  */
 
   io.util.mixin(Transport, io.EventEmitter);
 
 
   /**
-   * Indicates whether heartbeats is enabled for this transport
-   *
-   * @api private
-   */
+  * Indicates whether heartbeats is enabled for this transport
+  *
+  * @api private
+  */
 
   Transport.prototype.heartbeats = function () {
     return true;
   };
 
   /**
-   * Handles the response from the server. When a new response is received
-   * it will automatically update the timeout, decode the message and
-   * forwards the response to the onMessage function for further processing.
-   *
-   * @param {String} data Response from the server.
-   * @api private
-   */
+  * Handles the response from the server. When a new response is received
+  * it will automatically update the timeout, decode the message and
+  * forwards the response to the onMessage function for further processing.
+  *
+  * @param {String} data Response from the server.
+  * @api private
+  */
 
   Transport.prototype.onData = function (data) {
     this.clearCloseTimeout();
@@ -1309,10 +1309,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Handles packets.
-   *
-   * @api private
-   */
+  * Handles packets.
+  *
+  * @api private
+  */
 
   Transport.prototype.onPacket = function (packet) {
     this.socket.setHeartbeatTimeout();
@@ -1335,10 +1335,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Sets close timeout
-   *
-   * @api private
-   */
+  * Sets close timeout
+  *
+  * @api private
+  */
 
   Transport.prototype.setCloseTimeout = function () {
     if (!this.closeTimeout) {
@@ -1351,10 +1351,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called when transport disconnects.
-   *
-   * @api private
-   */
+  * Called when transport disconnects.
+  *
+  * @api private
+  */
 
   Transport.prototype.onDisconnect = function () {
     if (this.isOpen) this.close();
@@ -1364,10 +1364,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called when transport connects
-   *
-   * @api private
-   */
+  * Called when transport connects
+  *
+  * @api private
+  */
 
   Transport.prototype.onConnect = function () {
     this.socket.onConnect();
@@ -1375,10 +1375,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Clears close timeout
-   *
-   * @api private
-   */
+  * Clears close timeout
+  *
+  * @api private
+  */
 
   Transport.prototype.clearCloseTimeout = function () {
     if (this.closeTimeout) {
@@ -1388,10 +1388,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Clear timeouts
-   *
-   * @api private
-   */
+  * Clear timeouts
+  *
+  * @api private
+  */
 
   Transport.prototype.clearTimeouts = function () {
     this.clearCloseTimeout();
@@ -1402,33 +1402,33 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Sends a packet
-   *
-   * @param {Object} packet object.
-   * @api private
-   */
+  * Sends a packet
+  *
+  * @param {Object} packet object.
+  * @api private
+  */
 
   Transport.prototype.packet = function (packet) {
     this.send(io.parser.encodePacket(packet));
   };
 
   /**
-   * Send the received heartbeat message back to server. So the server
-   * knows we are still connected.
-   *
-   * @param {String} heartbeat Heartbeat response from the server.
-   * @api private
-   */
+  * Send the received heartbeat message back to server. So the server
+  * knows we are still connected.
+  *
+  * @param {String} heartbeat Heartbeat response from the server.
+  * @api private
+  */
 
   Transport.prototype.onHeartbeat = function (heartbeat) {
     this.packet({ type: 'heartbeat' });
   };
 
   /**
-   * Called when the transport opens.
-   *
-   * @api private
-   */
+  * Called when the transport opens.
+  *
+  * @api private
+  */
 
   Transport.prototype.onOpen = function () {
     this.isOpen = true;
@@ -1437,11 +1437,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Notifies the base when the connection with the Socket.IO server
-   * has been disconnected.
-   *
-   * @api private
-   */
+  * Notifies the base when the connection with the Socket.IO server
+  * has been disconnected.
+  *
+  * @api private
+  */
 
   Transport.prototype.onClose = function () {
     var self = this;
@@ -1457,12 +1457,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Generates a connection url based on the Socket.IO URL Protocol.
-   * See <https://github.com/learnboost/socket.io-node/> for more details.
-   *
-   * @returns {String} Connection url
-   * @api private
-   */
+  * Generates a connection url based on the Socket.IO URL Protocol.
+  * See <https://github.com/learnboost/socket.io-node/> for more details.
+  *
+  * @returns {String} Connection url
+  * @api private
+  */
 
   Transport.prototype.prepareUrl = function () {
     var options = this.socket.options;
@@ -1474,12 +1474,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Checks if the transport is ready to start a connection.
-   *
-   * @param {Socket} socket The socket instance that needs a transport
-   * @param {Function} fn The callback
-   * @api private
-   */
+  * Checks if the transport is ready to start a connection.
+  *
+  * @param {Socket} socket The socket instance that needs a transport
+  * @param {Function} fn The callback
+  * @api private
+  */
 
   Transport.prototype.ready = function (socket, fn) {
     fn.call(this);
@@ -1489,25 +1489,25 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   , 'undefined' != typeof io ? io : module.parent.exports
 );
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io, global) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports.Socket = Socket;
 
   /**
-   * Create a new `Socket.IO client` which can establish a persistent
-   * connection with a Socket.IO enabled server.
-   *
-   * @api public
-   */
+  * Create a new `Socket.IO client` which can establish a persistent
+  * connection with a Socket.IO enabled server.
+  *
+  * @api public
+  */
 
   function Socket (options) {
     this.options = {
@@ -1553,16 +1553,16 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 };
 
   /**
-   * Apply EventEmitter mixin.
-   */
+  * Apply EventEmitter mixin.
+  */
 
   io.util.mixin(Socket, io.EventEmitter);
 
   /**
-   * Returns a namespace listener/emitter for this socket
-   *
-   * @api public
-   */
+  * Returns a namespace listener/emitter for this socket
+  *
+  * @api public
+  */
 
   Socket.prototype.of = function (name) {
     if (!this.namespaces[name]) {
@@ -1577,10 +1577,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Emits the given event to the Socket and all namespaces
-   *
-   * @api private
-   */
+  * Emits the given event to the Socket and all namespaces
+  *
+  * @api private
+  */
 
   Socket.prototype.publish = function () {
     this.emit.apply(this, arguments);
@@ -1596,10 +1596,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Performs the handshake
-   *
-   * @api private
-   */
+  * Performs the handshake
+  *
+  * @api private
+  */
 
   function empty () { };
 
@@ -1661,10 +1661,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Find an available transport based on the options supplied in the constructor.
-   *
-   * @api private
-   */
+  * Find an available transport based on the options supplied in the constructor.
+  *
+  * @api private
+  */
 
   Socket.prototype.getTransport = function (override) {
     var transports = override || this.transports, match;
@@ -1681,12 +1681,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Connects to the server.
-   *
-   * @param {Function} [fn] Callback.
-   * @returns {io.Socket}
-   * @api public
-   */
+  * Connects to the server.
+  *
+  * @param {Function} [fn] Callback.
+  * @returns {io.Socket}
+  * @api public
+  */
 
   Socket.prototype.connect = function (fn) {
     if (this.connecting) {
@@ -1729,7 +1729,7 @@ var io = ('undefined' === typeof module ? {} : module.exports);
                   var remaining = self.transports;
 
                   while (remaining.length > 0 && remaining.splice(0,1)[0] !=
-                         self.transport.name) {}
+                        self.transport.name) {}
 
                     if (remaining.length){
                       connect(remaining);
@@ -1756,11 +1756,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Clears and sets a new heartbeat timeout using the value given by the
-   * server during the handshake.
-   *
-   * @api private
-   */
+  * Clears and sets a new heartbeat timeout using the value given by the
+  * server during the handshake.
+  *
+  * @api private
+  */
 
   Socket.prototype.setHeartbeatTimeout = function () {
     clearTimeout(this.heartbeatTimeoutTimer);
@@ -1773,12 +1773,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Sends a message.
-   *
-   * @param {Object} data packet.
-   * @returns {io.Socket}
-   * @api public
-   */
+  * Sends a message.
+  *
+  * @param {Object} data packet.
+  * @returns {io.Socket}
+  * @api public
+  */
 
   Socket.prototype.packet = function (data) {
     if (this.connected && !this.doBuffer) {
@@ -1791,10 +1791,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Sets buffer state
-   *
-   * @api private
-   */
+  * Sets buffer state
+  *
+  * @api private
+  */
 
   Socket.prototype.setBuffer = function (v) {
     this.doBuffer = v;
@@ -1807,11 +1807,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Flushes the buffer data over the wire.
-   * To be invoked manually when 'manualFlush' is set to true.
-   *
-   * @api public
-   */
+  * Flushes the buffer data over the wire.
+  * To be invoked manually when 'manualFlush' is set to true.
+  *
+  * @api public
+  */
 
   Socket.prototype.flushBuffer = function() {
     this.transport.payload(this.buffer);
@@ -1820,11 +1820,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   
 
   /**
-   * Disconnect the established connect.
-   *
-   * @returns {io.Socket}
-   * @api public
-   */
+  * Disconnect the established connect.
+  *
+  * @returns {io.Socket}
+  * @api public
+  */
 
   Socket.prototype.disconnect = function () {
     if (this.connected || this.connecting) {
@@ -1840,10 +1840,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Disconnects the socket with a sync XHR.
-   *
-   * @api private
-   */
+  * Disconnects the socket with a sync XHR.
+  *
+  * @api private
+  */
 
   Socket.prototype.disconnectSync = function () {
     // ensure disconnection
@@ -1865,12 +1865,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Check if we need to use cross domain enabled transports. Cross domain would
-   * be a different port or different domain name.
-   *
-   * @returns {Boolean}
-   * @api private
-   */
+  * Check if we need to use cross domain enabled transports. Cross domain would
+  * be a different port or different domain name.
+  *
+  * @returns {Boolean}
+  * @api private
+  */
 
   Socket.prototype.isXDomain = function () {
 
@@ -1882,10 +1882,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called upon handshake.
-   *
-   * @api private
-   */
+  * Called upon handshake.
+  *
+  * @api private
+  */
 
   Socket.prototype.onConnect = function () {
     if (!this.connected) {
@@ -1900,20 +1900,20 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called when the transport opens
-   *
-   * @api private
-   */
+  * Called when the transport opens
+  *
+  * @api private
+  */
 
   Socket.prototype.onOpen = function () {
     this.open = true;
   };
 
   /**
-   * Called when the transport closes.
-   *
-   * @api private
-   */
+  * Called when the transport closes.
+  *
+  * @api private
+  */
 
   Socket.prototype.onClose = function () {
     this.open = false;
@@ -1921,20 +1921,20 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called when the transport first opens a connection
-   *
-   * @param text
-   */
+  * Called when the transport first opens a connection
+  *
+  * @param text
+  */
 
   Socket.prototype.onPacket = function (packet) {
     this.of(packet.endpoint).onPacket(packet);
   };
 
   /**
-   * Handles an error.
-   *
-   * @api private
-   */
+  * Handles an error.
+  *
+  * @api private
+  */
 
   Socket.prototype.onError = function (err) {
     if (err && err.advice) {
@@ -1950,10 +1950,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called when the transport disconnects.
-   *
-   * @api private
-   */
+  * Called when the transport disconnects.
+  *
+  * @api private
+  */
 
   Socket.prototype.onDisconnect = function (reason) {
     var wasConnected = this.connected
@@ -1977,10 +1977,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Called upon reconnection.
-   *
-   * @api private
-   */
+  * Called upon reconnection.
+  *
+  * @api private
+  */
 
   Socket.prototype.reconnect = function () {
     this.reconnecting = true;
@@ -2065,25 +2065,25 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   , this
 );
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports.SocketNamespace = SocketNamespace;
 
   /**
-   * Socket namespace constructor.
-   *
-   * @constructor
-   * @api public
-   */
+  * Socket namespace constructor.
+  *
+  * @constructor
+  * @api public
+  */
 
   function SocketNamespace (socket, name) {
     this.socket = socket;
@@ -2095,35 +2095,35 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Apply EventEmitter mixin.
-   */
+  * Apply EventEmitter mixin.
+  */
 
   io.util.mixin(SocketNamespace, io.EventEmitter);
 
   /**
-   * Copies emit since we override it
-   *
-   * @api private
-   */
+  * Copies emit since we override it
+  *
+  * @api private
+  */
 
   SocketNamespace.prototype.$emit = io.EventEmitter.prototype.emit;
 
   /**
-   * Creates a new namespace, by proxying the request to the socket. This
-   * allows us to use the synax as we do on the server.
-   *
-   * @api public
-   */
+  * Creates a new namespace, by proxying the request to the socket. This
+  * allows us to use the synax as we do on the server.
+  *
+  * @api public
+  */
 
   SocketNamespace.prototype.of = function () {
     return this.socket.of.apply(this.socket, arguments);
   };
 
   /**
-   * Sends a packet.
-   *
-   * @api private
-   */
+  * Sends a packet.
+  *
+  * @api private
+  */
 
   SocketNamespace.prototype.packet = function (packet) {
     packet.endpoint = this.name;
@@ -2133,10 +2133,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Sends a message
-   *
-   * @api public
-   */
+  * Sends a message
+  *
+  * @api public
+  */
 
   SocketNamespace.prototype.send = function (data, fn) {
     var packet = {
@@ -2154,10 +2154,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Emits an event
-   *
-   * @api public
-   */
+  * Emits an event
+  *
+  * @api public
+  */
   
   SocketNamespace.prototype.emit = function (name) {
     var args = Array.prototype.slice.call(arguments, 1)
@@ -2180,10 +2180,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Disconnects the namespace
-   *
-   * @api private
-   */
+  * Disconnects the namespace
+  *
+  * @api private
+  */
 
   SocketNamespace.prototype.disconnect = function () {
     if (this.name === '') {
@@ -2197,10 +2197,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Handles a packet
-   *
-   * @api private
-   */
+  * Handles a packet
+  *
+  * @api private
+  */
 
   SocketNamespace.prototype.onPacket = function (packet) {
     var self = this;
@@ -2270,10 +2270,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Flag interface.
-   *
-   * @api private
-   */
+  * Flag interface.
+  *
+  * @api private
+  */
 
   function Flag (nsp, name) {
     this.namespace = nsp;
@@ -2281,10 +2281,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Send a message
-   *
-   * @api public
-   */
+  * Send a message
+  *
+  * @api public
+  */
 
   Flag.prototype.send = function () {
     this.namespace.flags[this.name] = true;
@@ -2292,10 +2292,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Emit an event
-   *
-   * @api public
-   */
+  * Emit an event
+  *
+  * @api public
+  */
 
   Flag.prototype.emit = function () {
     this.namespace.flags[this.name] = true;
@@ -2308,55 +2308,55 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 );
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io, global) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports.websocket = WS;
 
   /**
-   * The WebSocket transport uses the HTML5 WebSocket API to establish an
-   * persistent connection with the Socket.IO server. This transport will also
-   * be inherited by the FlashSocket fallback as it provides a API compatible
-   * polyfill for the WebSockets.
-   *
-   * @constructor
-   * @extends {io.Transport}
-   * @api public
-   */
+  * The WebSocket transport uses the HTML5 WebSocket API to establish an
+  * persistent connection with the Socket.IO server. This transport will also
+  * be inherited by the FlashSocket fallback as it provides a API compatible
+  * polyfill for the WebSockets.
+  *
+  * @constructor
+  * @extends {io.Transport}
+  * @api public
+  */
 
   function WS (socket) {
     io.Transport.apply(this, arguments);
   };
 
   /**
-   * Inherits from Transport.
-   */
+  * Inherits from Transport.
+  */
 
   io.util.inherit(WS, io.Transport);
 
   /**
-   * Transport name
-   *
-   * @api public
-   */
+  * Transport name
+  *
+  * @api public
+  */
 
   WS.prototype.name = 'websocket';
 
   /**
-   * Initializes a new `WebSocket` connection with the Socket.IO server. We attach
-   * all the appropriate listeners to handle the responses from the server.
-   *
-   * @returns {Transport}
-   * @api public
-   */
+  * Initializes a new `WebSocket` connection with the Socket.IO server. We attach
+  * all the appropriate listeners to handle the responses from the server.
+  *
+  * @returns {Transport}
+  * @api public
+  */
 
   WS.prototype.open = function () {
     var query = io.util.query(this.socket.options.query)
@@ -2389,12 +2389,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Send a message to the Socket.IO server. The message will automatically be
-   * encoded in the correct message format.
-   *
-   * @returns {Transport}
-   * @api public
-   */
+  * Send a message to the Socket.IO server. The message will automatically be
+  * encoded in the correct message format.
+  *
+  * @returns {Transport}
+  * @api public
+  */
 
   // Do to a bug in the current IDevices browser, we need to wrap the send in a 
   // setTimeout, when they resume from sleeping the browser will crash if 
@@ -2403,7 +2403,7 @@ var io = ('undefined' === typeof module ? {} : module.exports);
     WS.prototype.send = function (data) {
       var self = this;
       setTimeout(function() {
-         self.websocket.send(data);
+        self.websocket.send(data);
       },0);
       return this;
     };
@@ -2415,10 +2415,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   }
 
   /**
-   * Payload
-   *
-   * @api private
-   */
+  * Payload
+  *
+  * @api private
+  */
 
   WS.prototype.payload = function (arr) {
     for (var i = 0, l = arr.length; i < l; i++) {
@@ -2428,11 +2428,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Disconnect the established `WebSocket` connection.
-   *
-   * @returns {Transport}
-   * @api public
-   */
+  * Disconnect the established `WebSocket` connection.
+  *
+  * @returns {Transport}
+  * @api public
+  */
 
   WS.prototype.close = function () {
     this.websocket.close();
@@ -2440,33 +2440,33 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Handle the errors that `WebSocket` might be giving when we
-   * are attempting to connect or send messages.
-   *
-   * @param {Error} e The error.
-   * @api private
-   */
+  * Handle the errors that `WebSocket` might be giving when we
+  * are attempting to connect or send messages.
+  *
+  * @param {Error} e The error.
+  * @api private
+  */
 
   WS.prototype.onError = function (e) {
     this.socket.onError(e);
   };
 
   /**
-   * Returns the appropriate scheme for the URI generation.
-   *
-   * @api private
-   */
+  * Returns the appropriate scheme for the URI generation.
+  *
+  * @api private
+  */
   WS.prototype.scheme = function () {
     return this.socket.options.secure ? 'wss' : 'ws';
   };
 
   /**
-   * Checks if the browser has support for native `WebSockets` and that
-   * it's not the polyfill created for the FlashSocket transport.
-   *
-   * @return {Boolean}
-   * @api public
-   */
+  * Checks if the browser has support for native `WebSockets` and that
+  * it's not the polyfill created for the FlashSocket transport.
+  *
+  * @return {Boolean}
+  * @api public
+  */
 
   WS.check = function () {
     return ('WebSocket' in global && !('__addTask' in WebSocket))
@@ -2474,21 +2474,21 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Check if the `WebSocket` transport support cross domain communications.
-   *
-   * @returns {Boolean}
-   * @api public
-   */
+  * Check if the `WebSocket` transport support cross domain communications.
+  *
+  * @returns {Boolean}
+  * @api public
+  */
 
   WS.xdomainCheck = function () {
     return true;
   };
 
   /**
-   * Add the transport to your public io.transports array.
-   *
-   * @api private
-   */
+  * Add the transport to your public io.transports array.
+  *
+  * @api private
+  */
 
   io.transports.push('websocket');
 
@@ -2499,27 +2499,27 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 );
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io, global) {
 
   /**
-   * Expose constructor.
-   *
-   * @api public
-   */
+  * Expose constructor.
+  *
+  * @api public
+  */
 
   exports.XHR = XHR;
 
   /**
-   * XHR constructor
-   *
-   * @costructor
-   * @api public
-   */
+  * XHR constructor
+  *
+  * @costructor
+  * @api public
+  */
 
   function XHR (socket) {
     if (!socket) return;
@@ -2529,17 +2529,17 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Inherits from Transport.
-   */
+  * Inherits from Transport.
+  */
 
   io.util.inherit(XHR, io.Transport);
 
   /**
-   * Establish a connection
-   *
-   * @returns {Transport}
-   * @api public
-   */
+  * Establish a connection
+  *
+  * @returns {Transport}
+  * @api public
+  */
 
   XHR.prototype.open = function () {
     this.socket.setBuffer(false);
@@ -2554,11 +2554,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Check if we need to send data to the Socket.IO server, if we have data in our
-   * buffer we encode it and forward it to the `post` method.
-   *
-   * @api private
-   */
+  * Check if we need to send data to the Socket.IO server, if we have data in our
+  * buffer we encode it and forward it to the `post` method.
+  *
+  * @api private
+  */
 
   XHR.prototype.payload = function (payload) {
     var msgs = [];
@@ -2571,12 +2571,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Send data to the Socket.IO server.
-   *
-   * @param data The message
-   * @returns {Transport}
-   * @api public
-   */
+  * Send data to the Socket.IO server.
+  *
+  * @param data The message
+  * @returns {Transport}
+  * @api public
+  */
 
   XHR.prototype.send = function (data) {
     this.post(data);
@@ -2584,11 +2584,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Posts a encoded message to the Socket.IO server.
-   *
-   * @param {String} data A encoded message.
-   * @api private
-   */
+  * Posts a encoded message to the Socket.IO server.
+  *
+  * @param {String} data A encoded message.
+  * @api private
+  */
 
   function empty () { };
 
@@ -2626,11 +2626,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Disconnects the established `XHR` connection.
-   *
-   * @returns {Transport}
-   * @api public
-   */
+  * Disconnects the established `XHR` connection.
+  *
+  * @returns {Transport}
+  * @api public
+  */
 
   XHR.prototype.close = function () {
     this.onClose();
@@ -2638,13 +2638,13 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Generates a configured XHR request
-   *
-   * @param {String} url The url that needs to be requested.
-   * @param {String} method The method the request should use.
-   * @returns {XMLHttpRequest}
-   * @api private
-   */
+  * Generates a configured XHR request
+  *
+  * @param {String} url The url that needs to be requested.
+  * @param {String} method The method the request should use.
+  * @returns {XMLHttpRequest}
+  * @api private
+  */
 
   XHR.prototype.request = function (method) {
     var req = io.util.request(this.socket.isXDomain())
@@ -2667,22 +2667,22 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Returns the scheme to use for the transport URLs.
-   *
-   * @api private
-   */
+  * Returns the scheme to use for the transport URLs.
+  *
+  * @api private
+  */
 
   XHR.prototype.scheme = function () {
     return this.socket.options.secure ? 'https' : 'http';
   };
 
   /**
-   * Check if the XHR transports are supported
-   *
-   * @param {Boolean} xdomain Check if we support cross domain requests.
-   * @returns {Boolean}
-   * @api public
-   */
+  * Check if the XHR transports are supported
+  *
+  * @param {Boolean} xdomain Check if we support cross domain requests.
+  * @returns {Boolean}
+  * @api public
+  */
 
   XHR.check = function (socket, xdomain) {
     try {
@@ -2699,11 +2699,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Check if the XHR transport supports cross domain requests.
-   *
-   * @returns {Boolean}
-   * @api public
-   */
+  * Check if the XHR transport supports cross domain requests.
+  *
+  * @returns {Boolean}
+  * @api public
+  */
 
   XHR.xdomainCheck = function (socket) {
     return XHR.check(socket, true);
@@ -2715,55 +2715,55 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   , this
 );
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports.htmlfile = HTMLFile;
 
   /**
-   * The HTMLFile transport creates a `forever iframe` based transport
-   * for Internet Explorer. Regular forever iframe implementations will 
-   * continuously trigger the browsers buzy indicators. If the forever iframe
-   * is created inside a `htmlfile` these indicators will not be trigged.
-   *
-   * @constructor
-   * @extends {io.Transport.XHR}
-   * @api public
-   */
+  * The HTMLFile transport creates a `forever iframe` based transport
+  * for Internet Explorer. Regular forever iframe implementations will 
+  * continuously trigger the browsers buzy indicators. If the forever iframe
+  * is created inside a `htmlfile` these indicators will not be trigged.
+  *
+  * @constructor
+  * @extends {io.Transport.XHR}
+  * @api public
+  */
 
   function HTMLFile (socket) {
     io.Transport.XHR.apply(this, arguments);
   };
 
   /**
-   * Inherits from XHR transport.
-   */
+  * Inherits from XHR transport.
+  */
 
   io.util.inherit(HTMLFile, io.Transport.XHR);
 
   /**
-   * Transport name
-   *
-   * @api public
-   */
+  * Transport name
+  *
+  * @api public
+  */
 
   HTMLFile.prototype.name = 'htmlfile';
 
   /**
-   * Creates a new Ac...eX `htmlfile` with a forever loading iframe
-   * that can be used to listen to messages. Inside the generated
-   * `htmlfile` a reference will be made to the HTMLFile transport.
-   *
-   * @api private
-   */
+  * Creates a new Ac...eX `htmlfile` with a forever loading iframe
+  * that can be used to listen to messages. Inside the generated
+  * `htmlfile` a reference will be made to the HTMLFile transport.
+  *
+  * @api private
+  */
 
   HTMLFile.prototype.get = function () {
     this.doc = new window[(['Active'].concat('Object').join('X'))]('htmlfile');
@@ -2791,14 +2791,14 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * The Socket.IO server will write script tags inside the forever
-   * iframe, this function will be used as callback for the incoming
-   * information.
-   *
-   * @param {String} data The message
-   * @param {document} doc Reference to the context
-   * @api private
-   */
+  * The Socket.IO server will write script tags inside the forever
+  * iframe, this function will be used as callback for the incoming
+  * information.
+  *
+  * @param {String} data The message
+  * @param {document} doc Reference to the context
+  * @api private
+  */
 
   HTMLFile.prototype._ = function (data, doc) {
     // unescape all forward slashes. see GH-1251
@@ -2811,12 +2811,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Destroy the established connection, iframe and `htmlfile`.
-   * And calls the `CollectGarbage` function of Internet Explorer
-   * to release the memory.
-   *
-   * @api private
-   */
+  * Destroy the established connection, iframe and `htmlfile`.
+  * And calls the `CollectGarbage` function of Internet Explorer
+  * to release the memory.
+  *
+  * @api private
+  */
 
   HTMLFile.prototype.destroy = function () {
     if (this.iframe){
@@ -2833,11 +2833,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Disconnects the established connection.
-   *
-   * @returns {Transport} Chaining.
-   * @api public
-   */
+  * Disconnects the established connection.
+  *
+  * @returns {Transport} Chaining.
+  * @api public
+  */
 
   HTMLFile.prototype.close = function () {
     this.destroy();
@@ -2845,12 +2845,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Checks if the browser supports this transport. The browser
-   * must have an `Ac...eXObject` implementation.
-   *
-   * @return {Boolean}
-   * @api public
-   */
+  * Checks if the browser supports this transport. The browser
+  * must have an `Ac...eXObject` implementation.
+  *
+  * @return {Boolean}
+  * @api public
+  */
 
   HTMLFile.check = function (socket) {
     if (typeof window != "undefined" && (['Active'].concat('Object').join('X')) in window){
@@ -2863,11 +2863,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Check if cross domain requests are supported.
-   *
-   * @returns {Boolean}
-   * @api public
-   */
+  * Check if cross domain requests are supported.
+  *
+  * @returns {Boolean}
+  * @api public
+  */
 
   HTMLFile.xdomainCheck = function () {
     // we can probably do handling for sub-domains, we should
@@ -2876,10 +2876,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Add the transport to your public io.transports array.
-   *
-   * @api private
-   */
+  * Add the transport to your public io.transports array.
+  *
+  * @api private
+  */
 
   io.transports.push('htmlfile');
 
@@ -2889,68 +2889,68 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 );
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io, global) {
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports['xhr-polling'] = XHRPolling;
 
   /**
-   * The XHR-polling transport uses long polling XHR requests to create a
-   * "persistent" connection with the server.
-   *
-   * @constructor
-   * @api public
-   */
+  * The XHR-polling transport uses long polling XHR requests to create a
+  * "persistent" connection with the server.
+  *
+  * @constructor
+  * @api public
+  */
 
   function XHRPolling () {
     io.Transport.XHR.apply(this, arguments);
   };
 
   /**
-   * Inherits from XHR transport.
-   */
+  * Inherits from XHR transport.
+  */
 
   io.util.inherit(XHRPolling, io.Transport.XHR);
 
   /**
-   * Merge the properties from XHR transport
-   */
+  * Merge the properties from XHR transport
+  */
 
   io.util.merge(XHRPolling, io.Transport.XHR);
 
   /**
-   * Transport name
-   *
-   * @api public
-   */
+  * Transport name
+  *
+  * @api public
+  */
 
   XHRPolling.prototype.name = 'xhr-polling';
 
   /**
-   * Indicates whether heartbeats is enabled for this transport
-   *
-   * @api private
-   */
+  * Indicates whether heartbeats is enabled for this transport
+  *
+  * @api private
+  */
 
   XHRPolling.prototype.heartbeats = function () {
     return false;
   };
 
   /** 
-   * Establish a connection, for iPhone and Android this will be done once the page
-   * is loaded.
-   *
-   * @returns {Transport} Chaining.
-   * @api public
-   */
+  * Establish a connection, for iPhone and Android this will be done once the page
+  * is loaded.
+  *
+  * @returns {Transport} Chaining.
+  * @api public
+  */
 
   XHRPolling.prototype.open = function () {
     var self = this;
@@ -2960,10 +2960,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Starts a XHR request to wait for incoming messages.
-   *
-   * @api private
-   */
+  * Starts a XHR request to wait for incoming messages.
+  *
+  * @api private
+  */
 
   function empty () {};
 
@@ -3015,10 +3015,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Handle the unclean close behavior.
-   *
-   * @api private
-   */
+  * Handle the unclean close behavior.
+  *
+  * @api private
+  */
 
   XHRPolling.prototype.onClose = function () {
     io.Transport.XHR.prototype.onClose.call(this);
@@ -3033,15 +3033,15 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Webkit based browsers show a infinit spinner when you start a XHR request
-   * before the browsers onload event is called so we need to defer opening of
-   * the transport until the onload event is called. Wrapping the cb in our
-   * defer method solve this.
-   *
-   * @param {Socket} socket The socket instance that needs a transport
-   * @param {Function} fn The callback
-   * @api private
-   */
+  * Webkit based browsers show a infinit spinner when you start a XHR request
+  * before the browsers onload event is called so we need to defer opening of
+  * the transport until the onload event is called. Wrapping the cb in our
+  * defer method solve this.
+  *
+  * @param {Socket} socket The socket instance that needs a transport
+  * @param {Function} fn The callback
+  * @api private
+  */
 
   XHRPolling.prototype.ready = function (socket, fn) {
     var self = this;
@@ -3052,10 +3052,10 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Add the transport to your public io.transports array.
-   *
-   * @api private
-   */
+  * Add the transport to your public io.transports array.
+  *
+  * @api private
+  */
 
   io.transports.push('xhr-polling');
 
@@ -3066,39 +3066,39 @@ var io = ('undefined' === typeof module ? {} : module.exports);
 );
 
 /**
- * socket.io
- * Copyright(c) 2011 LearnBoost <dev@learnboost.com>
- * MIT Licensed
- */
+* socket.io
+* Copyright(c) 2011 LearnBoost <dev@learnboost.com>
+* MIT Licensed
+*/
 
 (function (exports, io, global) {
   /**
-   * There is a way to hide the loading indicator in Firefox. If you create and
-   * remove a iframe it will stop showing the current loading indicator.
-   * Unfortunately we can't feature detect that and UA sniffing is evil.
-   *
-   * @api private
-   */
+  * There is a way to hide the loading indicator in Firefox. If you create and
+  * remove a iframe it will stop showing the current loading indicator.
+  * Unfortunately we can't feature detect that and UA sniffing is evil.
+  *
+  * @api private
+  */
 
   var indicator = global.document && "MozAppearance" in
     global.document.documentElement.style;
 
   /**
-   * Expose constructor.
-   */
+  * Expose constructor.
+  */
 
   exports['jsonp-polling'] = JSONPPolling;
 
   /**
-   * The JSONP transport creates an persistent connection by dynamically
-   * inserting a script tag in the page. This script tag will receive the
-   * information of the Socket.IO server. When new information is received
-   * it creates a new script tag for the new data stream.
-   *
-   * @constructor
-   * @extends {io.Transport.xhr-polling}
-   * @api public
-   */
+  * The JSONP transport creates an persistent connection by dynamically
+  * inserting a script tag in the page. This script tag will receive the
+  * information of the Socket.IO server. When new information is received
+  * it creates a new script tag for the new data stream.
+  *
+  * @constructor
+  * @extends {io.Transport.xhr-polling}
+  * @api public
+  */
 
   function JSONPPolling (socket) {
     io.Transport['xhr-polling'].apply(this, arguments);
@@ -3113,33 +3113,33 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Inherits from XHR polling transport.
-   */
+  * Inherits from XHR polling transport.
+  */
 
   io.util.inherit(JSONPPolling, io.Transport['xhr-polling']);
 
   /**
-   * Transport name
-   *
-   * @api public
-   */
+  * Transport name
+  *
+  * @api public
+  */
 
   JSONPPolling.prototype.name = 'jsonp-polling';
 
   /**
-   * Posts a encoded message to the Socket.IO server using an iframe.
-   * The iframe is used because script tags can create POST based requests.
-   * The iframe is positioned outside of the view so the user does not
-   * notice it's existence.
-   *
-   * @param {String} data A encoded message.
-   * @api private
-   */
+  * Posts a encoded message to the Socket.IO server using an iframe.
+  * The iframe is used because script tags can create POST based requests.
+  * The iframe is positioned outside of the view so the user does not
+  * notice it's existence.
+  *
+  * @param {String} data A encoded message.
+  * @api private
+  */
 
   JSONPPolling.prototype.post = function (data) {
     var self = this
       , query = io.util.query(
-             this.socket.options.query
+            this.socket.options.query
           , 't='+ (+new Date) + '&i=' + this.index
         );
 
@@ -3215,17 +3215,17 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Creates a new JSONP poll that can be used to listen
-   * for messages from the Socket.IO server.
-   *
-   * @api private
-   */
+  * Creates a new JSONP poll that can be used to listen
+  * for messages from the Socket.IO server.
+  *
+  * @api private
+  */
 
   JSONPPolling.prototype.get = function () {
     var self = this
       , script = document.createElement('script')
       , query = io.util.query(
-             this.socket.options.query
+            this.socket.options.query
           , 't='+ (+new Date) + '&i=' + this.index
         );
 
@@ -3254,11 +3254,11 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Callback function for the incoming message stream from the Socket.IO server.
-   *
-   * @param {String} data The message
-   * @api private
-   */
+  * Callback function for the incoming message stream from the Socket.IO server.
+  *
+  * @param {String} data The message
+  * @api private
+  */
 
   JSONPPolling.prototype._ = function (msg) {
     this.onData(msg);
@@ -3269,12 +3269,12 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * The indicator hack only works after onload
-   *
-   * @param {Socket} socket The socket instance that needs a transport
-   * @param {Function} fn The callback
-   * @api private
-   */
+  * The indicator hack only works after onload
+  *
+  * @param {Socket} socket The socket instance that needs a transport
+  * @param {Function} fn The callback
+  * @api private
+  */
 
   JSONPPolling.prototype.ready = function (socket, fn) {
     var self = this;
@@ -3286,32 +3286,32 @@ var io = ('undefined' === typeof module ? {} : module.exports);
   };
 
   /**
-   * Checks if browser supports this transport.
-   *
-   * @return {Boolean}
-   * @api public
-   */
+  * Checks if browser supports this transport.
+  *
+  * @return {Boolean}
+  * @api public
+  */
 
   JSONPPolling.check = function () {
     return 'document' in global;
   };
 
   /**
-   * Check if cross domain requests are supported
-   *
-   * @returns {Boolean}
-   * @api public
-   */
+  * Check if cross domain requests are supported
+  *
+  * @returns {Boolean}
+  * @api public
+  */
 
   JSONPPolling.xdomainCheck = function () {
     return true;
   };
 
   /**
-   * Add the transport to your public io.transports array.
-   *
-   * @api private
-   */
+  * Add the transport to your public io.transports array.
+  *
+  * @api private
+  */
 
   io.transports.push('jsonp-polling');
 

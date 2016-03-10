@@ -3,17 +3,18 @@
 
     function Player(params, game) {
         var self = this;
-        var playerExists = 1;
+        // var playerExists = 0;
         self._id = params._id;
         self.name = params.name;
         self.type = 'local';
         self.direction = params.direction || 'right';
         self.currentWeapon = 0;
-        self.weapons = weapons;
-        
+        // game.weapons = weapons;
+        self.health = 100;
+
         // set the position to start at either the params passed in or 505, 540
-        var posX = params.x || 505;
-        var posY = params.y || 540;
+        var posX = params.x || 50 + Math.floor(1500 * Math.random());
+        var posY = params.y || 100;
 
         // Sprite config
         var characterSprite = 'player';
@@ -26,15 +27,15 @@
             self.sprite = phaser.add.sprite(posX, posY, characterSprite);
             phaser.physics.enable(self.sprite, Phaser.Physics.ARCADE);
         }
-        
+
         // add the player name label
         var text = phaser.add.bitmapText(100, 100, 'default', self.name, 16);
         self.playerName = text;
         self.playerName.x = (self.sprite.x + (self.sprite.width / 2)) - (self.playerName.textWidth / 2);
         self.playerName.y = self.sprite.y - self.playerName.textHeight;
-        
+
         // define the animations for the sprite
-        
+
         self.sprite.animations.add('stand-down', [0]);
         self.sprite.animations.add('walk-down', [0, 1, 2]);
 
@@ -49,7 +50,7 @@
 
         self.sprite.name = self.name;
         self.sprite.lastPosition = {};
-        
+
         // store the cursor keys as a valid in input method
         self.cursors = phaser.input.keyboard.createCursorKeys();
 
@@ -63,11 +64,11 @@
             'weap3': Phaser.KeyCode.THREE,
             'weap4': Phaser.KeyCode.FOUR
         });
-        
+
         // let the camera follow the local player
         phaser.camera.follow(self.sprite);
     }
-    
+
     // callback for general collisions
     var onCollision = function() {
 
@@ -82,33 +83,49 @@
             moveParams = {},
             shotParams = {},
             positionOffset = 10;
-        
+
         // enable collision between the player and other collision objects
         if (game.groups.collisionGroup) {
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
             player.body.collideWorldBounds = true;
         }
-        
+
         // enable collision between player and platforms so that it can jump on them
         phaser.physics.arcade.collide(self.sprite, platforms);
-        
+
         // destroy any bullets that hit a platform
-        phaser.physics.arcade.collide(self.weapons[self.currentWeapon], platforms, function(bullet, platform) {
+        phaser.physics.arcade.collide(game.weapons[self.currentWeapon], platforms, function(bullet, platform) {
             bullet.kill();
         });
         
-        //////////////// to review ///////////////////////
-        phaser.physics.arcade.collide(self.weapons[self.currentWeapon], player, function(bullet, player) {
-            bullet.kill();
-        });
+      
         
+        for (var i = 0; i < game.weapons.length; ++i) {
+            phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
+                bullet.kill();
+                if (self.health > 0) {
+                    // reduce health
+                    self.health -= 10;
+                    // update health bar
+                    game.playerHealthBar.setPercent(self.health);
+                }
+                else{
+                    self.sprite.kill();
+                   game.socket.disconnect();
+                }
+                
+            });
+        }
+        
+        
+       
         // set gravitational properties
         player.body.bounce.y = 0.15;
         player.body.gravity.y = 1400;
-        
+
         // by default the player is not moving in the x axis
         player.body.velocity.x = 0;
-        
+
         // set the current player depending on which number key is pressed
         if (keys.weap1.isDown) {
             self.currentWeapon = 0;
@@ -122,12 +139,12 @@
         else if (keys.weap4.isDown) {
             self.currentWeapon = 3;
         }
-        
+
         // shoot the bullets whilst the left mouse button is clicked
         if (phaser.input.activePointer.isDown) {
             // get the angle from the player to the mouse taking into account camera coords as well
             var angle = Math.atan2(phaser.input.y + phaser.camera.y - player.y, phaser.input.x + phaser.camera.x - player.x) * (180 / Math.PI);
-            self.weapons[self.currentWeapon].fire(player.x, player.y, angle);
+            game.weapons[self.currentWeapon].fire(player.x, player.y, angle);
 
             shotParams.x = player.x;
             shotParams.y = player.y;
@@ -135,7 +152,7 @@
             shotParams.angle = angle;
             game.socket.emit('shot', shotParams);
         }
-        
+
         // jumping
         if ((cursors.up.isDown || keys.up.isDown) && player.body.touching.down) {
             player.body.velocity.y = -900;
@@ -156,7 +173,7 @@
             self.direction = 'right';
             moveParams.velX = baseVelocity;
         }
-        
+
         // if player is notmoving in x, show walking animation
         if (player.body.velocity.x) {
             self.sprite.animations.play('walk-' + self.direction, 10, true);
@@ -165,7 +182,7 @@
         else {
             self.sprite.animations.play('stand-' + self.direction, 10, true);
         }
-        
+
         // if the player's position has changed emit that to the socket
         if (player.lastPosition.x !== player.body.x || player.lastPosition.y !== player.body.y) {
             moveParams.x = player.body.x;
@@ -177,11 +194,11 @@
             player.lastPosition.x = player.body.x;
             player.lastPosition.y = player.body.y;
         }
-        
+
         // let the text label follow the player
         self.playerName.x = (player.x + (player.width / 2)) - (self.playerName.textWidth / 2);
         self.playerName.y = player.y - self.playerName.textHeight;
-        
+
         player.destinationX = 0;
         player.destinationY = 0;
     };

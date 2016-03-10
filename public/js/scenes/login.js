@@ -2,6 +2,7 @@
 (function(){
 
   var LoginScene = function(game) {
+   
   };
 
   // Preload
@@ -32,12 +33,12 @@
     var background             = this.add.sprite(0, 0, 'background');
     background.alpha           = 0.4;
 
-    var title                  = this.add.bitmapText(phaser.canvas.width/2, 80, 'font_large', 'Software Projects Testing', 72);
+    var title                  = this.add.bitmapText(phaser.canvas.width/2, 80, 'font_large', 'Pow Pow', 72);
     title.x                    -= title.textWidth/2;
 
-    var subtitle_text          = 'Software Projects Testing';
-    var subtitle               = this.add.bitmapText(phaser.canvas.width/2, 80+title.textHeight, 'font_medium', subtitle_text, 16);
-    subtitle.x                 -= subtitle.textWidth/2;
+    // var subtitle_text          = 'Pow P';
+    // var subtitle               = this.add.bitmapText(phaser.canvas.width/2, 80+title.textHeight, 'font_medium', subtitle_text, 16);
+    // subtitle.x                 -= subtitle.textWidth/2;
 
     var form                   = this.add.group();
     var username               = form.create(0, 0, 'input');
@@ -96,35 +97,48 @@
 
     // Username prompt
     username.events.onInputDown.add(function(){
-      game.input({
-        message: 'Type your username',
-        callback: function(text){
-          if(text){
-            placeholder1.text = text;
-          }
-        }
-      });
+      var text = window.prompt("Username","");
+     
+      // username     = text;
+      placeholder1.text = text;
+      // this.game.input({
+      //   message: 'Type your username',
+      //   callback: function(text){
+      //     if(text){
+      //       placeholder1.text = text;
+      //     }
+      //   }
+      // });
     });
 
     // Password prompt
     password.events.onInputDown.add(function(){
-      game.input({
-        message: 'Type your password',
-        callback: function(text) {
-          if (text){
-            var placeholder = '';
-            for (var i=0; i < text.length; i++){
-              placeholder += '*';
-            }
-            user_password     = text;
-            placeholder2.text = placeholder;
-          }
-        }
-      });
+     
+      // this.game.input({
+      //   message: 'Type your password',
+      //   callback: function(text) {
+      //     if (text){
+      //       var placeholder = '';
+      //       for (var i=0; i < text.length; i++){
+      //         placeholder += '*';
+      //       }
+      //       user_password     = text;
+      //       placeholder2.text = placeholder;
+      //     }
+      //   }
+      // });
+      
+      var text = window.prompt("Type password","");
+      var placeholder = '';
+      
+      for (var i=0; i < text.length; i++){
+        placeholder += '*';
+      }
+      user_password     = text;
+      placeholder2.text = placeholder;
     });
 
-    // CocoonJS Fix
-    var fake = this.game.add.image(0, 0, '');
+   
   };
 
   // Update
@@ -139,7 +153,7 @@
 
   // initGame
   LoginScene.prototype.initGame = function() {
-    this.state.start('Game');
+    phaser.state.start('Game');
   };
 
   // game.scenes.login = LoginScene;
