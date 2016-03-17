@@ -17,9 +17,9 @@ module.exports = function(io, socket){
         var player_id = data._id || nextId++;
 
         // if(sockets[player_id]){
-            //socket.emit('alert', { message: "You are already logged in" });
-            // socket.disconnect();
-            // return;
+        //     socket.emit('alert', { message: "You are already logged in" });
+        //     socket.disconnect();
+        //     return;
         // }
 
         sockets[player_id] = socket;
@@ -50,13 +50,13 @@ module.exports = function(io, socket){
             player.direction = data.direction;
 
             // Broadcast position change to all other clients
-            socket.broadcast.emit('moved', player);
+             socket.broadcast.emit('moved', player);
         }
     });
     
     socket.on('shot', function(data) {
        if (player) {
-           data._id = player.id;
+           data._id = player._id;
            socket.broadcast.emit('shotFired', data);
        }
     });  
@@ -65,7 +65,7 @@ module.exports = function(io, socket){
         if(player){
             delete players[player._id];
         }
-        io.sockets.emit('disconnected', player);
+        io.emit('disconnected', player);
     });
 
     // socket.on('message', function(data){

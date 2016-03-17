@@ -60,6 +60,7 @@ UserSchema.path('hashed_password').validate(function(hashed_password) {
 }, 'Password cannot be blank');
 
 
+
 /**
  * Pre-save hook
  */

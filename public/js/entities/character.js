@@ -1,4 +1,4 @@
-! function() {
+!function() {
 
     function Character(params) {
         var self = this;
@@ -6,8 +6,9 @@
         self.name = params.name;
         self.type = 'remote';
         self.direction = params.direction || 'down';
+        self.weapons = game.weapons.slice();
         self.currentWeapon = 0;
-        self.health = 101;
+        self.health = 100;
 
         var posX = params.x || 0;
         var posY = params.y || 0;
@@ -25,7 +26,7 @@
         }
 
         self.sprite.name = self.name;
-        // self.sprite.body.immovable = true;
+       //  self.sprite.body.immovable = true;
 
         var text = phaser.add.bitmapText(100, 100, 'default', self.name, 16);
         self.playerName = text;
@@ -33,17 +34,17 @@
         self.playerName.x = (self.sprite.x + (self.sprite.width / 2)) - (self.playerName.textWidth / 2);
         self.playerName.y = self.sprite.y - self.playerName.textHeight;
 
-        self.sprite.animations.add('stand-down', [0]);
-        self.sprite.animations.add('walk-down', [0, 1, 2]);
+        self.sprite.animations.add('stand-down', [7]);
+        self.sprite.animations.add('walk-down', [6, 7, 8]);
 
-        self.sprite.animations.add('stand-left', [12]);
-        self.sprite.animations.add('walk-left', [12, 13, 14]);
+        self.sprite.animations.add('stand-left', [19]);
+        self.sprite.animations.add('walk-left', [18, 19, 20]);
 
-        self.sprite.animations.add('stand-right', [24]);
-        self.sprite.animations.add('walk-right', [25, 26, 27]);
+        self.sprite.animations.add('stand-right', [31]);
+        self.sprite.animations.add('walk-right', [30, 31, 32]);
 
-        self.sprite.animations.add('stand-up', [36]);
-        self.sprite.animations.add('walk-up', [36, 37, 38]);
+        self.sprite.animations.add('stand-up', [43]);
+        self.sprite.animations.add('walk-up', [42, 43, 44]);
 
         self.playerName = text;
     }
@@ -52,8 +53,8 @@
 
     Character.prototype.update = function() {
         var self = this;
-        var player = self.sprite,
-            positionOffset = 5;
+        var player = self.sprite;
+            // positionOffset = 5;
             
         player.body.bounce.y = 0.15;
         player.body.gravity.y = 1400;
@@ -77,7 +78,6 @@
         if (game.groups.collisionGroup) {
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
         }
-
 
         for (var i = 0; i < game.weapons.length; ++i) {
             phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {

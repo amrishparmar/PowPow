@@ -3,13 +3,16 @@
 
     function Player(params, game) {
         var self = this;
-        // var playerExists = 0;
         self._id = params._id;
         self.name = params.name;
         self.type = 'local';
         self.direction = params.direction || 'right';
+        self.weapons = game.weapons.slice();
         self.currentWeapon = 0;
         self.health = 100;
+        self.kills = 0;
+        self.deaths = 0;
+        self.deathText = {};
 
         // set the position to start at either the params passed in or 505, 540
         var posX = params.x || 50 + Math.floor(1500 * Math.random());
@@ -64,9 +67,16 @@
             'weap3': Phaser.KeyCode.THREE,
             'weap4': Phaser.KeyCode.FOUR
         });
+        
 
         // let the camera follow the local player
         phaser.camera.follow(self.sprite);
+        
+        self.deathText = phaser.add.text(650, 20, "Deaths: " + self.deaths, {
+            font: "24px Arial",
+            fill: "#ff0044",
+            align: "left",
+        });
     }
 
     // callback for general collisions
@@ -82,7 +92,6 @@
             keys = self.keys,
             moveParams = {},
             shotParams = {};
-            // positionOffset = 10;
 
         // enable collision between the player and other collision objects
         if (game.groups.collisionGroup) {
@@ -94,35 +103,36 @@
         phaser.physics.arcade.collide(self.sprite, platforms);
 
         // destroy any bullets that hit a platform
-        phaser.physics.arcade.collide(game.weapons[self.currentWeapon], platforms, function(bullet, platform) {
-            bullet.kill();
-        });
+        // phaser.physics.arcade.collide(game.weapons[self.currentWeapon], platforms, function(bullet, platform) {
+        //     bullet.kill();
+        // });
         
-        if (self.health == 0) {
-            self.sprite.x = 50 + Math.floor(1500 * Math.random());
-            self.sprite.y = 100;
-            self.health = 100;
-            game.playerHealthBar.setPercent(self.health);
-        }
-        else {
-            for (var i = 0; i < game.weapons.length; ++i) {
-                phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
-                    bullet.kill();
-                    if (self.health > 0) {
-                        // reduce health
-                        self.health -= 10;
-                        // update health bar
+        
+        for (var i = 0; i < game.weapons.length; ++i) {
+            phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
+                if (self.health > 0 && bullet.id != undefined) {
+                    // reduce health
+                    self.health -= 10;
+                    // update health bar
+                    game.playerHealthBar.setPercent(self.health);
+                    
+                    if (self.health == 0) {
+                        self.deaths += 1;
+                        
+                        self.sprite.x = 50 + Math.floor(1500 * Math.random());
+                        self.sprite.y = 100;
+                        self.health = 100;
+                        
                         game.playerHealthBar.setPercent(self.health);
                     }
-                    else {
-                        //self.sprite.kill();
-                    }
-                });
-            }
+                }
+                bullet.kill();
+            });
         }
         
-      
-        
+        self.deathText.x = 650 + phaser.camera.x;
+        self.deathText.y = 20 + phaser.camera.y;
+        self.deathText.setText("Deaths: " + self.deaths);
         
         // set gravitational properties
         player.body.bounce.y = 0.15;

@@ -23,6 +23,7 @@
     
     // our own properties
     this.weapons;
+    this.weapons2;
     this.currentWeapon;
     this.playerHealthBar;
   };
@@ -42,6 +43,9 @@
 
     // Disable pause on blur
     this.stage.disableVisibilityChange = true;
+    this.game.pageAlignHorizontally = true;
+    this.game.pageAlignVertically= true;
+    this.game.scale.refresh();
   };
 
 
@@ -62,7 +66,7 @@
   Bullet.prototype = Object.create(Phaser.Sprite.prototype);
   Bullet.prototype.constructor = Bullet;
 
-  Bullet.prototype.fire = function(x, y, angle, speed, gx, gy) {
+  Bullet.prototype.fire = function(x, y, angle, speed, gx, gy, id) {
     gx = gx || 0;
     gy = gy || 0;
 
@@ -74,6 +78,8 @@
     this.angle = angle;
 
     this.body.gravity.set(gx, gy);
+    
+    this.id = id;
   };
 
   Bullet.prototype.update = function() {
@@ -109,16 +115,18 @@
   Weapon.AutoHG.prototype.constructor = Weapon.AutoHG;
 
   /* fire the AutoHG weapon */
-  Weapon.AutoHG.prototype.fire = function(sourceX, sourceY, angle) {
+  Weapon.AutoHG.prototype.fire = function(sourceX, sourceY, angle, id) {
     if (this.game.time.time < this.nextFire) {
       return;
     }
     var x = sourceX + 16;
     var y = sourceY + 16;
 
-    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
+    
+    // this.id = id;
   };
 
   //////// Machine gun ////////
@@ -141,14 +149,14 @@
   Weapon.MachineGun.prototype.constructor = Weapon.MachineGun;
 
   /* fire the MachineGun weapon */
-  Weapon.MachineGun.prototype.fire = function(sourceX, sourceY, angle) {
+  Weapon.MachineGun.prototype.fire = function(sourceX, sourceY, angle, id) {
     if (this.game.time.time < this.nextFire) {
       return;
     }
     var x = sourceX + 16;
     var y = sourceY + 16 + this.game.rnd.between(-4, 4);
 
-    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-5, 5), this.bulletSpeed, 0, 0);
+    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-5, 5), this.bulletSpeed, 0, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
   };
@@ -173,16 +181,16 @@
   Weapon.Shotgun.prototype.constructor = Weapon.Shotgun;
 
   /* fire the Shotgun weapon */
-  Weapon.Shotgun.prototype.fire = function(sourceX, sourceY, angle) {
+  Weapon.Shotgun.prototype.fire = function(sourceX, sourceY, angle, id) {
     if (this.game.time.time < this.nextFire) {
       return;
     }
     var x = sourceX + 16;
     var y = sourceY + 16;
 
-    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-10, 5), this.bulletSpeed, 0, 0);
-    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0);
-    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(5, 10), this.bulletSpeed, 0, 0);
+    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-10, 5), this.bulletSpeed, 0, 0, id);
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0, id);
+    this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(5, 10), this.bulletSpeed, 0, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
   };
@@ -207,14 +215,14 @@
   Weapon.GrenadeLauncher.prototype.constructor = Weapon.GrenadeLauncher;
 
   /* fire the AutoHG weapon */
-  Weapon.GrenadeLauncher.prototype.fire = function(sourceX, sourceY, angle) {
+  Weapon.GrenadeLauncher.prototype.fire = function(sourceX, sourceY, angle, id) {
     if (this.game.time.time < this.nextFire) {
       return;
     }
     var x = sourceX + 16;
     var y = sourceY + 16;
 
-    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 500);
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 50, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
   };
@@ -258,6 +266,10 @@
     ledge = platforms.create(1500, 300, 'ground');
     ledge.body.immovable = true;
     
+    
+    
+    
+   //------------------------------------
     // configuration for health bar
     var barConfig = {
       x: 60,
@@ -266,10 +278,10 @@
       height: 20,
       isFixedToCamera: true
     };
-    
+    // Healthbar
     game.playerHealthBar = new HealthBar(this.game, barConfig);
 
-   
+   //------------------------------------
     
     // Collision group
     game.groups.collisionGroup = phaser.add.group();
@@ -279,20 +291,16 @@
     // this.currentWeapon = 0;
     
     game.weapons = [];
+    
 
     game.weapons.push(new Weapon.AutoHG(this));
     game.weapons.push(new Weapon.MachineGun(this));
     game.weapons.push(new Weapon.Shotgun(this));
     game.weapons.push(new Weapon.GrenadeLauncher(this));
 
-    // Player
-    var user_id;
-    if (game.use_random_id) {
-      user_id = 'test_id_' + (Math.floor(Math.random(1, 100) * 1000));
-    }
-    else {
-      user_id = game.user._id;
-    }
+    // // Player
+     var user_id;
+     user_id = game.user._id;
 
     game.localPlayer = new game.entities.Player({
       _id: user_id,
@@ -410,7 +418,9 @@
   };
 
   GameScene.prototype.addRemoteBullet = function(bullet) {
-    game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle);
+    // game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle);
+    game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle, bullet._id);
+    // game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle, bullet.remote);
   }
 
   GameScene.prototype.moveRemotePlayer = function(player, data) {

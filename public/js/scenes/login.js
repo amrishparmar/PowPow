@@ -4,7 +4,7 @@
   var LoginScene = function(game) {
    
   };
-
+2
   // Preload
   LoginScene.prototype.preload = function() {
     console.log('Login preload');
@@ -17,7 +17,7 @@
     this.load.bitmapFont('font_large', 'assets/fonts/font_large.png', 'assets/fonts/' + fontFile2);
 
     // Background
-    this.load.image('background', 'assets/images/login_background2.jpg');
+   // this.load.image('background', 'assets/images/login_background2.jpg');
 
     // Input
     this.load.image('input', 'assets/images/input.png');

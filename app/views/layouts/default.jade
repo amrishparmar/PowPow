@@ -6,16 +6,17 @@ html
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="description", content="")
         meta(name="viewport", content="width=device-width, initial-scale=1")
+        
 
         // //- Browsers Only
-        // script.
-        //     if(!navigator.isCocoonJS){
-        //         document.write('<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>')
-        //         document.write('<link rel="stylesheet/less" type="text/css" href="/css/app.less"/>')
-        //         document.write('<script src="/js/vendor/less-1.7.0.min.js"><\/script>')
-        //         document.write('<script src="/js/vendor/jquery-1.11.0.min.js"><\/script>')
-        //         document.write('<script src="/js/vendor/bootstrap.min.js"><\/script>')
-        //     }
+        script.
+            {
+                document.write('<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>')
+                document.write('<link rel="stylesheet/less" type="text/css" href="/css/app.less"/>')
+                document.write('<script src="/js/vendor/less-1.7.0.min.js"><\/script>')
+                document.write('<script src="/js/vendor/jquery-1.11.0.min.js"><\/script>')
+                document.write('<script src="/js/vendor/bootstrap.min.js"><\/script>')
+            }
 
         script(src="/js/vendor/underscore-min.js")
         script.
