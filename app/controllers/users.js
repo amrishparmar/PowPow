@@ -54,7 +54,7 @@ exports.login = function(req, res) {
                 });
                 
             } else {
-                // res.render('signin', {
+                // res.render('play', {
                 //     error: 'Incorrect password'
                 // });
                 res.json({
@@ -63,7 +63,7 @@ exports.login = function(req, res) {
             }
 
         } else {
-            // res.render('signin', {
+            // res.render('play', {
             //     error: 'User not found'
             // });
             res.json({

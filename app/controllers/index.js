@@ -1,15 +1,15 @@
 var _ = require('underscore');
 
 // Index controller
+
 exports.home = function(req, res) {
     req.session = req.session || {};
 
     if (!req.session.user) {
-        return res.redirect('/play');
+        return res.redirect('/play'); 
     } else {
         res.redirect('/play');
     }
-
 };
 
 exports.play = function(req, res) {

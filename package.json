@@ -8,7 +8,7 @@
     "socket.io"     : "0.9.16",
     "jade"          : "1.x",
     "mongoose"      : "3.8.8",
-    "underscore"    : "1.6.0",
+    "underscore"    : "1.8.3",
     "connect-mongo" : "~0.4.0"
   }
 }

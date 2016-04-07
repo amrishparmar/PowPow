@@ -19,13 +19,13 @@
     this.physics; //  the physics manager (Phaser.Physics)
     this.rnd; //  the repeatable random number generator (Phaser.RandomDataGenerator)
     this.world;
-    this.input;
     
     // our own properties
     this.weapons;
     this.weapons2;
     this.currentWeapon;
     this.playerHealthBar;
+    //this.ow1;
   };
 
   // Preload
@@ -36,7 +36,8 @@
     this.load.image('ground', 'assets/maps/city_platform.png');
     this.load.image('bullet', 'assets/images/bullet.png');
     // Player
-    this.load.spritesheet('player', 'assets/sprites/characters.png', 32, 32);
+    // this.load.spritesheet('player', 'assets/sprites/character.png', 32, 32);
+    this.load.spritesheet('player', 'assets/sprites/sprite4.png', 32, 48);
     // Fonts
     var fontFile = (navigator.isCocoonJS) ? 'default.xml' : 'default_desktop.xml';
     this.load.bitmapFont('default', 'assets/fonts/default.png', 'assets/fonts/' + fontFile);
@@ -287,8 +288,6 @@
     game.groups.collisionGroup = phaser.add.group();
     game.groups.collisionGroup.enableBody = true;
     game.groups.collisionGroup.physicsBodyType = Phaser.Physics.ARCADE;
-
-    // this.currentWeapon = 0;
     
     game.weapons = [];
     
@@ -299,13 +298,13 @@
     game.weapons.push(new Weapon.GrenadeLauncher(this));
 
     // // Player
-     var user_id;
-     user_id = game.user._id;
-
+    var user_id;
+    user_id = game.user._id;
+    
     game.localPlayer = new game.entities.Player({
       _id: user_id,
       name: game.user.username || 'Local player',
-      group: game.groups.collisionGroup
+      group: game.groups.collisionGroup,
     });
     game.players[user_id] = game.localPlayer;
 
@@ -413,14 +412,12 @@
       _id: player._id,
       x: player.x,
       y: player.y,
-      name: player.name || 'Remote player'
+      name: player.name || 'Remote player' 
     });
   };
 
   GameScene.prototype.addRemoteBullet = function(bullet) {
-    // game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle);
     game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle, bullet._id);
-    // game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle, bullet.remote);
   }
 
   GameScene.prototype.moveRemotePlayer = function(player, data) {
@@ -441,7 +438,6 @@
 
   // Render
   GameScene.prototype.render = function() {
-    // console.log('Game render');
   };
 
   // Logout
@@ -452,7 +448,6 @@
   window.onfocus = function() {
     _.each(game.players, function(player) {
       if (player.type === 'remote') {
-        //console.log('move player', player);
         phaser.add.tween(player.sprite.body).to({
           x: player.destinationX,
           y: player.destinationY

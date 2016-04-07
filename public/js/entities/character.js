@@ -6,7 +6,6 @@
         self.name = params.name;
         self.type = 'remote';
         self.direction = params.direction || 'down';
-        self.weapons = game.weapons.slice();
         self.currentWeapon = 0;
         self.health = 100;
 

@@ -62,7 +62,8 @@ sio.set('authorization', function (data, callback) {
 });
 
 // Express configuration
-app.configure(function(){
+// app.configure(function(){
+if (app.get('env')) {
   app.set('views', __dirname + '/app/views');
   app.set('view engine', 'jade');
   app.use(express.logger('dev'));
@@ -79,11 +80,14 @@ app.configure(function(){
   }));
 
   app.use(app.router);
-});
+}
+// });
 
-app.configure('development', function(){
+// app.configure('development', function(){
+if (app.get('env')) {
   app.use(express.errorHandler());
-});
+}
+// });
 
 var walk = function(path, _app) {
   fs.readdirSync(path).forEach(function(file) {

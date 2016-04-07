@@ -13,7 +13,7 @@
   game.socket     = io.connect(location.protocol + '//' + location.host);
   noop            = function(){};
 
-  game.gameWidth  = 800;
+  game.gameWidth  = 960;
   game.gameHeight = 600;
   
   

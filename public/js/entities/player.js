@@ -7,12 +7,12 @@
         self.name = params.name;
         self.type = 'local';
         self.direction = params.direction || 'right';
-        self.weapons = game.weapons.slice();
         self.currentWeapon = 0;
         self.health = 100;
         self.kills = 0;
         self.deaths = 0;
         self.deathText = {};
+        //self.weapons = {};
 
         // set the position to start at either the params passed in or 505, 540
         var posX = params.x || 50 + Math.floor(1500 * Math.random());
@@ -37,18 +37,29 @@
         self.playerName.y = self.sprite.y - self.playerName.textHeight;
 
         // define the animations for the sprite
-
         self.sprite.animations.add('stand-down', [0]);
-        self.sprite.animations.add('walk-down', [0, 1, 2]);
+        self.sprite.animations.add('walk-down', [0,1, 2,3]);
 
-        self.sprite.animations.add('stand-left', [12]);
-        self.sprite.animations.add('walk-left', [12, 13, 14]);
+        self.sprite.animations.add('stand-left', [4]);
+        self.sprite.animations.add('walk-left', [4,5, 6,7]);
 
-        self.sprite.animations.add('stand-right', [24]);
-        self.sprite.animations.add('walk-right', [25, 26, 27]);
+        self.sprite.animations.add('stand-right', [8]);
+        self.sprite.animations.add('walk-right', [8,9, 10, 11]);
 
-        self.sprite.animations.add('stand-up', [36]);
-        self.sprite.animations.add('walk-up', [36, 37, 38]);
+        self.sprite.animations.add('stand-up', [12]);
+        self.sprite.animations.add('walk-up', [12,13,14,15]);
+
+        // self.sprite.animations.add('stand-down', [0]);
+        // self.sprite.animations.add('walk-down', [0, 1, 2]);
+
+        // self.sprite.animations.add('stand-left', [12]);
+        // self.sprite.animations.add('walk-left', [12, 13, 14]);
+
+        // self.sprite.animations.add('stand-right', [24]);
+        // self.sprite.animations.add('walk-right', [25, 26, 27]);
+
+        // self.sprite.animations.add('stand-up', [36]);
+        // self.sprite.animations.add('walk-up', [36, 37, 38]);
 
         self.sprite.name = self.name;
         self.sprite.lastPosition = {};
@@ -67,7 +78,6 @@
             'weap3': Phaser.KeyCode.THREE,
             'weap4': Phaser.KeyCode.FOUR
         });
-        
 
         // let the camera follow the local player
         phaser.camera.follow(self.sprite);
@@ -77,6 +87,7 @@
             fill: "#ff0044",
             align: "left",
         });
+        
     }
 
     // callback for general collisions
@@ -92,7 +103,7 @@
             keys = self.keys,
             moveParams = {},
             shotParams = {};
-
+            // self.weapons = game.weapons.slice();
         // enable collision between the player and other collision objects
         if (game.groups.collisionGroup) {
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
@@ -101,7 +112,7 @@
 
         // enable collision between player and platforms so that it can jump on them
         phaser.physics.arcade.collide(self.sprite, platforms);
-
+        
         // destroy any bullets that hit a platform
         // phaser.physics.arcade.collide(game.weapons[self.currentWeapon], platforms, function(bullet, platform) {
         //     bullet.kill();

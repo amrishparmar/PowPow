@@ -9,7 +9,6 @@ module.exports = function(app) {
   app.post('/signup', users.create);
 
 	app.get('/signout', users.signout);
-	app.get('/users/me', users.me);
 
 	// Create user
 	app.post('/users', users.create);

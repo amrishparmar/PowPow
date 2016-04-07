@@ -67,8 +67,4 @@ module.exports = function(io, socket){
         }
         io.emit('disconnected', player);
     });
-
-    // socket.on('message', function(data){
-    //     socket.broadcast.emit('new_message', { from: player.name, message: data.message });
-    // });
 };
