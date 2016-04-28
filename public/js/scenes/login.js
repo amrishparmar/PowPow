@@ -4,23 +4,25 @@
   var LoginScene = function(game) {
    
   };
-2
+
   // Preload
   LoginScene.prototype.preload = function() {
-    console.log('Login preload');
-
+  
     // Fonts
     var fontFile = (navigator.isCocoonJS) ? 'font_medium.xml' : 'font_medium_desktop.xml';
     this.load.bitmapFont('font_medium', 'assets/fonts/font_medium.png', 'assets/fonts/' + fontFile);
 
     var fontFile2 = (navigator.isCocoonJS) ? 'font_large.xml' : 'font_large_desktop.xml';
     this.load.bitmapFont('font_large', 'assets/fonts/font_large.png', 'assets/fonts/' + fontFile2);
+    
+    var fontFile3 = (navigator.isCocoonJS) ? 'default.xml' : 'default_desktop.xml';
+    this.load.bitmapFont('default', 'assets/fonts/default.png', 'assets/fonts/' + fontFile3);
 
     // Background
-   // this.load.image('background', 'assets/images/login_background2.jpg');
+    this.load.image('background', 'assets/images/city_bg.jpg');
 
     // Input
-    this.load.image('input', 'assets/images/input.png');
+    this.load.image('input', 'assets/images/input1.png');
 
     // Button
     this.load.image('login_btn', 'assets/images/button_login.png');
@@ -33,7 +35,7 @@
     var background             = this.add.sprite(0, 0, 'background');
     background.alpha           = 0.4;
 
-    var title                  = this.add.bitmapText(phaser.canvas.width/2, 80, 'font_large', 'Pow Pow', 72);
+    var title                  = this.add.bitmapText(phaser.canvas.width/2, 80, 'default', 'Pow Pow', 72);
     title.x                    -= title.textWidth/2;
 
     // var subtitle_text          = 'Pow P';
@@ -50,18 +52,18 @@
     form.x                     = phaser.canvas.width/2 - username.width/2;
     form.y                     = 210;
 
-    var placeholder1           = this.add.bitmapText(form.x + 15, form.y + 10, 'font_medium', 'Username', 22);
+    var placeholder1           = this.add.bitmapText(form.x + 15, form.y + 10, 'default', 'Username', 25);
     placeholder1.alpha         = 0.7;
 
-    var placeholder2           = this.add.bitmapText(form.x + 15, form.y + 90, 'font_medium', 'Password', 22);
+    var placeholder2           = this.add.bitmapText(form.x + 15, form.y + 90, 'default', 'Password', 25);
     placeholder2.alpha         = 0.7;
 
-    var login_text             = this.add.bitmapText(form.x + (loginBtn.width/2), form.y + loginBtn.y + 10, 'font_large', 'Login', 35);
+    var login_text             = this.add.bitmapText(form.x + (loginBtn.width/2), form.y + loginBtn.y + 10, 'default', 'Login', 30);
     login_text.x               -= login_text.textWidth/2;
     
     
-    var signup_text             = this.add.bitmapText(form.x + (loginBtn.width/2), form.y + loginBtn.y + 80, 'font_large', 'Signup', 35);
-    signup_text.x               -= signup_text.textWidth/2;
+    // var signup_text             = this.add.bitmapText(form.x + (loginBtn.width/2), form.y + loginBtn.y + 80, 'default', 'Signup', 30);
+    // signup_text.x               -= signup_text.textWidth/2;
 
     var user_password          = '';
 
@@ -98,35 +100,12 @@
     // Username prompt
     username.events.onInputDown.add(function(){
       var text = window.prompt("Please enter your username","");
-     
-      // username     = text;
       placeholder1.text = text;
-      // this.game.input({
-      //   message: 'Type your username',
-      //   callback: function(text){
-      //     if(text){
-      //       placeholder1.text = text;
-      //     }
-      //   }
-      // });
+
     });
 
     // Password prompt
     password.events.onInputDown.add(function(){
-     
-      // this.game.input({
-      //   message: 'Type your password',
-      //   callback: function(text) {
-      //     if (text){
-      //       var placeholder = '';
-      //       for (var i=0; i < text.length; i++){
-      //         placeholder += '*';
-      //       }
-      //       user_password     = text;
-      //       placeholder2.text = placeholder;
-      //     }
-      //   }
-      // });
       
       var text = window.prompt("Please enter your password","");
       var placeholder = '';
