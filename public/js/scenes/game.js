@@ -25,7 +25,15 @@
     this.weapons2;
     this.currentWeapon;
     this.playerHealthBar;
-    //this.ow1;
+    
+    // sounds
+    this.shoot1;
+    this.shootShotgun;
+    this.reloadShotgun;
+    this.fx;
+    this.shotGunFx;
+    this.reloadShotgunFx;
+    this.grenade;
   };
 
   // Preload
@@ -35,18 +43,29 @@
     this.load.image('city', 'assets/maps/city_bg.jpg');
     this.load.image('ground', 'assets/maps/city_platform.png');
     this.load.image('bullet', 'assets/images/bullet.png');
+    this.load.image('grenade', 'assets/images/grenade.png');
     // Player
-    // this.load.spritesheet('player', 'assets/sprites/character.png', 32, 32);
-    this.load.spritesheet('player', 'assets/sprites/sprite4.png', 32, 48);
+   //  this.load.spritesheet('player', 'assets/sprites/characters.png', 32, 32);
+   //  this.load.spritesheet('player', 'assets/sprites/sprite4.png', 32, 48);
+    this.load.spritesheet('player', 'assets/sprites/metroid_sprite.png', 60, 48);
     // Fonts
-    var fontFile = (navigator.isCocoonJS) ? 'default.xml' : 'default_desktop.xml';
-    this.load.bitmapFont('default', 'assets/fonts/default.png', 'assets/fonts/' + fontFile);
+    this.load.bitmapFont('default', 'assets/fonts/default.png', 'assets/fonts/default_desktop.xml');
+    
+    //handgun
+    this.load.audio('shoot1', ['assets/sounds/sfx/shooting.wav']);
+    this.load.audio('grenade', ['assets/sounds/sfx/grenade.wav']);
+    
+    //shotgun
+    this.load.audio('shootShotgun', ['assets/sounds/sfx/shooting_2.wav']);
+     this.load.audio('reloadShotgun', ['assets/sounds/sfx/shotgun_reload.wav']);
 
     // Disable pause on blur
     this.stage.disableVisibilityChange = true;
     this.game.pageAlignHorizontally = true;
     this.game.pageAlignVertically= true;
     this.game.scale.refresh();
+    
+    // this.game.canvas.style.cursor = "xhair";
   };
 
 
@@ -107,6 +126,7 @@
 
     for (var i = 0; i < 16; ++i) {
       this.add(new Bullet(game, 'bullet'), true);
+      
     }
 
     return this;
@@ -123,11 +143,13 @@
     var x = sourceX + 16;
     var y = sourceY + 16;
 
+     game.fx.play();
+    //game.fx.play(game.shoot1);
+  
     this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
     
-    // this.id = id;
   };
 
   //////// Machine gun ////////
@@ -157,6 +179,7 @@
     var x = sourceX + 16;
     var y = sourceY + 16 + this.game.rnd.between(-4, 4);
 
+game.fx.play();
     this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-5, 5), this.bulletSpeed, 0, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
@@ -188,7 +211,8 @@
     }
     var x = sourceX + 16;
     var y = sourceY + 16;
-
+game.shotGunFx.play();
+game.reloadShotgunFx.play();
     this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(-10, 5), this.bulletSpeed, 0, 0, id);
     this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0, id);
     this.getFirstExists(false).fire(x, y, angle + this.game.rnd.between(5, 10), this.bulletSpeed, 0, 0, id);
@@ -206,7 +230,7 @@
     this.fireRate = 1250;
 
     for (var i = 0; i < 8; ++i) {
-      this.add(new Bullet(game, 'bullet'), true);
+      this.add(new Bullet(game, 'grenade'), true);
     }
 
     return this;
@@ -215,7 +239,7 @@
   Weapon.GrenadeLauncher.prototype = Object.create(Phaser.Group.prototype);
   Weapon.GrenadeLauncher.prototype.constructor = Weapon.GrenadeLauncher;
 
-  /* fire the AutoHG weapon */
+  /* fire the GrenadeLauncher weapon */
   Weapon.GrenadeLauncher.prototype.fire = function(sourceX, sourceY, angle, id) {
     if (this.game.time.time < this.nextFire) {
       return;
@@ -223,7 +247,7 @@
     var x = sourceX + 16;
     var y = sourceY + 16;
 
-    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 50, 0, id);
+    this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 600, 0, id);
 
     this.nextFire = this.game.time.time + this.fireRate;
   };
@@ -243,14 +267,12 @@
     ground.scale.setTo(4.5, 2);
     ground.body.immovable = true;
 
-
     // create a bunch of platforms based on the game design docs
     var ledge = platforms.create(-150, 400, 'ground');
     ledge.body.immovable = true;
 
     ledge = platforms.create(240, 615, 'ground');
     ledge.body.immovable = true;
-
 
     ledge = platforms.create(500, 250, 'ground');
     ledge.body.immovable = true;
@@ -267,7 +289,19 @@
     ledge = platforms.create(1500, 300, 'ground');
     ledge.body.immovable = true;
     
+    // add audio to game
+    // game.shoot1 = game.add.audio('shoot1');
     
+    //handgun
+    game.fx = this.game.add.audio('shoot1');
+    
+    game.shotGunFx = this.game.add.audio('shootShotgun');
+    game.reloadShotgunFx = this.game.add.audio('reloadShotgun');
+     game.grenade = this.game.add.audio('grenade');
+    
+    //game.fx.addMarker('shot', 17, 1.0);
+    
+  
     
     
    //------------------------------------
@@ -356,7 +390,12 @@
     // Players has shot 
     game.socket.on('shotFired', function(bullet) {
       self.addRemoteBullet(bullet);
+     
     });
+    
+    // game.socket.on('kills', function(bullet) {
+    //       player.kills +=1;
+    //   });
 
     // Get online players
     game.socket.on('players', function(players) {
@@ -364,7 +403,11 @@
         self.addRemotePlayer(player);
       });
     });
-
+    
+    // game.socket.on('kills', function(bullet) {
+    //       self.kills +=1;
+    //       console.log(self.kills);
+    //   });
   };
 
   // Update
@@ -385,11 +428,16 @@
     for (var i = 0; i < game.weapons.length; ++i) {
       phaser.physics.arcade.collide(game.weapons[i], platforms, function(bullet, platform) {
         bullet.kill();
+        if(i == 3){
+          
+          game.grenade.play();
+        }
         // console.log(user_id);
       });
-
-
     }
+    
+    
+    
 
     // phaser.physics.arcade.collide(weapons[self.currentWeapon], game.localPlayer.sprite, function(bullet, player) {
     //   console.log(game.players[player._id]);
@@ -418,6 +466,7 @@
 
   GameScene.prototype.addRemoteBullet = function(bullet) {
     game.weapons[bullet.currentWeapon].fire(bullet.x, bullet.y, bullet.angle, bullet._id);
+   
   }
 
   GameScene.prototype.moveRemotePlayer = function(player, data) {
