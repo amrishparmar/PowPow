@@ -50,7 +50,7 @@ module.exports = function(io, socket){
             player.direction = data.direction;
 
             // Broadcast position change to all other clients
-             socket.broadcast.emit('moved', player);
+            socket.broadcast.emit('moved', player);
         }
     });
     
@@ -59,6 +59,12 @@ module.exports = function(io, socket){
            data._id = player._id;
            socket.broadcast.emit('shotFired', data);
        }
+    }); 
+    
+    socket.on('kills', function(data) {
+      
+           socket.broadcast.emit('kills', data);
+       
     });  
 
     socket.on('disconnect', function() {

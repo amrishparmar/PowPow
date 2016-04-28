@@ -9,9 +9,14 @@
         self.direction = params.direction || 'right';
         self.currentWeapon = 0;
         self.health = 100;
-        self.kills = 0;
+       
         self.deaths = 0;
         self.deathText = {};
+        self.healthText = {};
+        // self.killsText = {};
+        
+
+
         //self.weapons = {};
 
         // set the position to start at either the params passed in or 505, 540
@@ -37,29 +42,16 @@
         self.playerName.y = self.sprite.y - self.playerName.textHeight;
 
         // define the animations for the sprite
-        self.sprite.animations.add('stand-down', [0]);
-        self.sprite.animations.add('walk-down', [0,1, 2,3]);
 
-        self.sprite.animations.add('stand-left', [4]);
-        self.sprite.animations.add('walk-left', [4,5, 6,7]);
+        self.sprite.animations.add('stand-down', [6]);
+        self.sprite.animations.add('walk-down', [6, 7, 8, 9, 10, 11]);
 
-        self.sprite.animations.add('stand-right', [8]);
-        self.sprite.animations.add('walk-right', [8,9, 10, 11]);
+        self.sprite.animations.add('stand-left', [6]);
+        self.sprite.animations.add('walk-left', [6, 7, 8, 9, 10, 11]);
 
-        self.sprite.animations.add('stand-up', [12]);
-        self.sprite.animations.add('walk-up', [12,13,14,15]);
+        self.sprite.animations.add('stand-right', [12]);
+        self.sprite.animations.add('walk-right', [12, 13, 14, 15, 16, 17]);
 
-        // self.sprite.animations.add('stand-down', [0]);
-        // self.sprite.animations.add('walk-down', [0, 1, 2]);
-
-        // self.sprite.animations.add('stand-left', [12]);
-        // self.sprite.animations.add('walk-left', [12, 13, 14]);
-
-        // self.sprite.animations.add('stand-right', [24]);
-        // self.sprite.animations.add('walk-right', [25, 26, 27]);
-
-        // self.sprite.animations.add('stand-up', [36]);
-        // self.sprite.animations.add('walk-up', [36, 37, 38]);
 
         self.sprite.name = self.name;
         self.sprite.lastPosition = {};
@@ -81,13 +73,20 @@
 
         // let the camera follow the local player
         phaser.camera.follow(self.sprite);
+
+        self.healthText = phaser.add.text(20, 20, "Health: " , {
+            font: "24px Arial",
+            fill: "#ff0044",
+            align: "right",
+        });
+        
         
         self.deathText = phaser.add.text(650, 20, "Deaths: " + self.deaths, {
             font: "24px Arial",
             fill: "#ff0044",
             align: "left",
         });
-        
+
     }
 
     // callback for general collisions
@@ -103,7 +102,7 @@
             keys = self.keys,
             moveParams = {},
             shotParams = {};
-            // self.weapons = game.weapons.slice();
+        // self.weapons = game.weapons.slice();
         // enable collision between the player and other collision objects
         if (game.groups.collisionGroup) {
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
@@ -112,39 +111,48 @@
 
         // enable collision between player and platforms so that it can jump on them
         phaser.physics.arcade.collide(self.sprite, platforms);
-        
+
         // destroy any bullets that hit a platform
         // phaser.physics.arcade.collide(game.weapons[self.currentWeapon], platforms, function(bullet, platform) {
         //     bullet.kill();
         // });
-        
-        
+
+
         for (var i = 0; i < game.weapons.length; ++i) {
             phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
-                if (self.health > 0 && bullet.id != undefined) {
+                if (self.health >= 0 && bullet.id != undefined) {
                     // reduce health
                     self.health -= 10;
                     // update health bar
                     game.playerHealthBar.setPercent(self.health);
-                    
+
                     if (self.health == 0) {
                         self.deaths += 1;
-                        
                         self.sprite.x = 50 + Math.floor(1500 * Math.random());
                         self.sprite.y = 100;
                         self.health = 100;
-                        
                         game.playerHealthBar.setPercent(self.health);
+                        
+                        game.socket.emit('kills', bullet.id);
+                        
                     }
                 }
                 bullet.kill();
             });
         }
-        
-        self.deathText.x = 650 + phaser.camera.x;
-        self.deathText.y = 20 + phaser.camera.y;
+
+        // DEATH AND KILL COUNT TEXT
+        self.deathText.x = 800 + phaser.camera.x;
+        self.deathText.y = 60 + phaser.camera.y;
+        game.killsText.x = 800 + phaser.camera.x;
+        game.killsText.y = 20 + phaser.camera.y;
         self.deathText.setText("Deaths: " + self.deaths);
+
+        //health text
+         self.healthText.x = 20 + phaser.camera.x;
+         self.healthText.y = 20 + phaser.camera.y;
         
+
         // set gravitational properties
         player.body.bounce.y = 0.15;
         player.body.gravity.y = 1400;
@@ -228,7 +236,6 @@
         player.destinationX = 0;
         player.destinationY = 0;
     };
-
     game.entities = game.entities || {};
     game.entities.Player = Player;
 })();

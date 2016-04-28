@@ -32,19 +32,17 @@
 
         self.playerName.x = (self.sprite.x + (self.sprite.width / 2)) - (self.playerName.textWidth / 2);
         self.playerName.y = self.sprite.y - self.playerName.textHeight;
+        
+         self.sprite.animations.add('stand-down', [6]);
+        self.sprite.animations.add('walk-down', [6,7,8,9,10,11]);
 
-        self.sprite.animations.add('stand-down', [7]);
-        self.sprite.animations.add('walk-down', [6, 7, 8]);
+        self.sprite.animations.add('stand-left', [6]);
+        self.sprite.animations.add('walk-left', [6,7,8,9,10,11]);
 
-        self.sprite.animations.add('stand-left', [19]);
-        self.sprite.animations.add('walk-left', [18, 19, 20]);
+        self.sprite.animations.add('stand-right', [12]);
+        self.sprite.animations.add('walk-right', [12,13,14,15,16,17]);
 
-        self.sprite.animations.add('stand-right', [31]);
-        self.sprite.animations.add('walk-right', [30, 31, 32]);
-
-        self.sprite.animations.add('stand-up', [43]);
-        self.sprite.animations.add('walk-up', [42, 43, 44]);
-
+        
         self.playerName = text;
     }
 
