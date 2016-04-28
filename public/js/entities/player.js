@@ -77,16 +77,16 @@
         self.healthText = phaser.add.text(20, 20, "Health: " , {
             font: "24px Arial",
             fill: "#ff0044",
-            align: "right",
+            align: "center",
         });
+         self.healthText.fixedToCamera = true;
         
-        
-        self.deathText = phaser.add.text(650, 20, "Deaths: " + self.deaths, {
+        self.deathText = phaser.add.text(800, 20, "Deaths: " + self.deaths, {
             font: "24px Arial",
             fill: "#ff0044",
             align: "left",
         });
-
+        self.deathText.fixedToCamera = true;
     }
 
     // callback for general collisions

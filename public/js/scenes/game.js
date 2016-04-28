@@ -316,12 +316,12 @@
     
     
     
-    game.killsText = phaser.add.text(650, 60, "Kills: " + game.kills, {
+    game.killsText = phaser.add.text(800, 60, "Kills: " + game.kills, {
             font: "24px Arial",
             fill: "#76EE00",
            
         });
-
+    game.killsText.fixedToCamera = true;
     //------------------------------------
 
     // Collision group
