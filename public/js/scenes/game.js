@@ -260,7 +260,7 @@
 
     // Start physics
     phaser.physics.startSystem(Phaser.Physics.ARCADE);
-
+    phaser.physics.arcade.OVERLAP_BIAS = 10; 
     this.add.tileSprite(0, 0, 1600, 1000, 'city');
     this.world.setBounds(0, 0, 1600, 1000);
     game.kills = 0;
@@ -403,15 +403,9 @@
     
     game.socket.on('kills', function(bullet) {
             var m = game.user._id;
-            console.log("m : " + m + "and bullet : " + bullet);
             if(m == bullet){
-              
             game.kills += 1;
-            
-            console.log(game.kills);
             }
-          
-            
         });
     
     // Get online players
@@ -420,12 +414,6 @@
         self.addRemotePlayer(player);
       });
     });
-
-    // game.socket.on('kills', function(bullet) {
-    //       self.kills +=1;
-    //       console.log(self.kills);
-    //   });
-    
   };
 
   // Update

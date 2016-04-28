@@ -9,16 +9,10 @@
         self.direction = params.direction || 'right';
         self.currentWeapon = 0;
         self.health = 100;
-       
         self.deaths = 0;
         self.deathText = {};
         self.healthText = {};
-        // self.killsText = {};
-        
-
-
-        //self.weapons = {};
-
+    
         // set the position to start at either the params passed in or 505, 540
         var posX = params.x || 50 + Math.floor(1500 * Math.random());
         var posY = params.y || 100;
@@ -42,17 +36,12 @@
         self.playerName.y = self.sprite.y - self.playerName.textHeight;
 
         // define the animations for the sprite
-
         self.sprite.animations.add('stand-down', [6]);
         self.sprite.animations.add('walk-down', [6, 7, 8, 9, 10, 11]);
-
         self.sprite.animations.add('stand-left', [6]);
         self.sprite.animations.add('walk-left', [6, 7, 8, 9, 10, 11]);
-
         self.sprite.animations.add('stand-right', [12]);
         self.sprite.animations.add('walk-right', [12, 13, 14, 15, 16, 17]);
-
-
         self.sprite.name = self.name;
         self.sprite.lastPosition = {};
 
@@ -112,21 +101,28 @@
         // enable collision between player and platforms so that it can jump on them
         phaser.physics.arcade.collide(self.sprite, platforms);
 
-        // destroy any bullets that hit a platform
-        // phaser.physics.arcade.collide(game.weapons[self.currentWeapon], platforms, function(bullet, platform) {
-        //     bullet.kill();
-        // });
-
 
         for (var i = 0; i < game.weapons.length; ++i) {
             phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
                 if (self.health >= 0 && bullet.id != undefined) {
                     // reduce health
-                    self.health -= 10;
+                    
+                    if (i == 0) {
+                    self.health -= 20;
+                    }
+                    else if (i == 1) {
+                    self.health -= 5;
+                    }
+                    else if (i == 2) {
+                    self.health -= 15;
+                    }
+                    else if (i == 3) {
+                    self.health -= 40;
+                    }
                     // update health bar
                     game.playerHealthBar.setPercent(self.health);
 
-                    if (self.health == 0) {
+                    if (self.health <= 0) {
                         self.deaths += 1;
                         self.sprite.x = 50 + Math.floor(1500 * Math.random());
                         self.sprite.y = 100;
