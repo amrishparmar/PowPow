@@ -47,12 +47,12 @@ exports.login = function(req, res) {
                 delete userData.password;
                 delete userData.hashed_password;
                 delete userData.salt;
-                res.json({
-                    success: true,
-                    user: userData
+                // res.json({
+                //   // success: true,
+                //   // res.redirect('/play');
                     
-                });
-                
+                // });
+                res.redirect('/play');
             } else {
                 // res.render('play', {
                 //     error: 'Incorrect password'
