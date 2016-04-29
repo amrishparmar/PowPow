@@ -1,8 +1,6 @@
 /**
-*  js-morpg
-*  Multiplayer RPG Game
+*   Multiplayer shooting game 
 *
-*  Gilberto Avalos <avalosagnostic@gmail.com>
 */
 
 // Dependences
@@ -62,7 +60,6 @@ sio.set('authorization', function (data, callback) {
 });
 
 // Express configuration
-// app.configure(function(){
 if (app.get('env')) {
   app.set('views', __dirname + '/app/views');
   app.set('view engine', 'jade');
@@ -81,13 +78,11 @@ if (app.get('env')) {
 
   app.use(app.router);
 }
-// });
 
-// app.configure('development', function(){
+
 if (app.get('env')) {
   app.use(express.errorHandler());
 }
-// });
 
 var walk = function(path, _app) {
   fs.readdirSync(path).forEach(function(file) {

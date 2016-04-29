@@ -1,4 +1,5 @@
 (function() {
+    // movement speed
     var baseVelocity = 300;
 
     function Player(params, game) {
@@ -91,7 +92,7 @@
             keys = self.keys,
             moveParams = {},
             shotParams = {};
-        // self.weapons = game.weapons.slice();
+        
         // enable collision between the player and other collision objects
         if (game.groups.collisionGroup) {
             phaser.physics.arcade.collide(self.sprite, game.groups.collisionGroup, onCollision);
@@ -105,8 +106,7 @@
         for (var i = 0; i < game.weapons.length; ++i) {
             phaser.physics.arcade.collide(game.weapons[i], player, function(player, bullet) {
                 if (self.health >= 0 && bullet.id != undefined) {
-                    // reduce health
-                    
+                    // reduce health depending which weapon is being used
                     if (i == 0) {
                     self.health -= 20;
                     }
@@ -128,9 +128,7 @@
                         self.sprite.y = 100;
                         self.health = 100;
                         game.playerHealthBar.setPercent(self.health);
-                        
                         game.socket.emit('kills', bullet.id);
-                        
                     }
                 }
                 bullet.kill();

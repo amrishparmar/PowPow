@@ -38,10 +38,6 @@
     var title                  = this.add.bitmapText(phaser.canvas.width/2, 80, 'default', 'Pow Pow', 72);
     title.x                    -= title.textWidth/2;
 
-    // var subtitle_text          = 'Pow P';
-    // var subtitle               = this.add.bitmapText(phaser.canvas.width/2, 80+title.textHeight, 'font_medium', subtitle_text, 16);
-    // subtitle.x                 -= subtitle.textWidth/2;
-
     var form                   = this.add.group();
     var username               = form.create(0, 0, 'input');
     username.inputEnabled      = true;
@@ -62,8 +58,8 @@
     login_text.x               -= login_text.textWidth/2;
     
     
-    // var signup_text             = this.add.bitmapText(form.x + (loginBtn.width/2), form.y + loginBtn.y + 80, 'default', 'Signup', 30);
-    // signup_text.x               -= signup_text.textWidth/2;
+     var signup_text             = this.add.bitmapText(form.x + (loginBtn.width/2), form.y + loginBtn.y + 80, 'default', 'If dont have an account, please use sign up page on the top right corner of the page.', 15);
+     signup_text.x               -= signup_text.textWidth/2;
 
     var user_password          = '';
 

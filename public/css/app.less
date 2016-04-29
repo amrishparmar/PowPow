@@ -26,7 +26,6 @@ body {
 }
 
 .login {
-	padding-top: 10%;
 	width  : 500px;
 	margin : 10% auto;
 
@@ -52,55 +51,6 @@ body {
 	position : relative;
 	width    : 100%;
 	height   : 100px;
-
-	.chat {
-		display    : none;
-		width      : 100%;
-		position   : absolute;
-		bottom     : 0;
-		left       : 0;
-		background : rgba(0,0,0, 0.5);
-
-		#chat-form {
-			margin  : 0;
-			padding : 0;
-
-			input {
-				position      : relative;
-				top           : 2px;
-				display       : inline-block;
-				border-radius : 0;
-				width         : 90%
-			}
-
-			button {
-				width: 10%;
-			}
-		}
-
-		.messages {
-			text-shadow : 1px 1px 1px #1D1D1D;
-			color       : white;
-			overflow-x  : hidden;
-			overflow-y  : auto;
-			height      : 100px;
-			padding     : 4px;
-			// padding-bottom : 22px;
-
-			.message-time {
-				font-size : 13px;
-				color     : #ddd;
-			}
-
-			.me {
-				color: #5CC947;
-			}
-
-			.debug {
-				color: #F93D3D;
-			}
-		}
-	}
 }
 
 @media only screen and (min-width: 1024px) {

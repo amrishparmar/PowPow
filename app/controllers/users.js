@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 User         = mongoose.model('User');
 
 /**
- * Auth callback
+ * Authorization callback
  */
 exports.authCallback = function(req, res) {
     res.redirect('/');
@@ -28,45 +28,31 @@ exports.login = function(req, res) {
     password     = req.body.password || req.query.password;
 
     if(!username){
-        // return res.render('signin', {
-        //     error: 'Invalid username'
-        // });
         return res.json({
             error: 'Invalid username'
         });
     }
 
+    // Function to look for the user in the database
     User.findOne({ username: username }, function(err, doc){
-
         if(doc){
-
             if( doc.authenticate(password) ){
                 req.session.user = doc;
-                // res.redirect('/play');
                 var userData = doc.toObject();
                 delete userData.password;
                 delete userData.hashed_password;
                 delete userData.salt;
-                
                 res.json({
                     success: true,
                     user: userData,
-                   
                 });
-               
             } else {
-                // res.render('play', {
-                //     error: 'Incorrect password'
-                // });
                 res.json({
                     error: 'Incorrect password'
                 });
             }
 
         } else {
-            // res.render('play', {
-            //     error: 'User not found'
-            // });
             res.json({
                 error: 'User not found'
             });
@@ -76,7 +62,7 @@ exports.login = function(req, res) {
 };
 
 /**
- * Sign up
+ * Render Sign up
  */
 exports.signup = function(req, res) {
     res.render('signup');

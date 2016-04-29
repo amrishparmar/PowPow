@@ -1,3 +1,7 @@
+/**
+ * Module dependencies.
+ */
+
 var _ = require('underscore');
 
 // Index controller
@@ -11,12 +15,7 @@ exports.home = function(req, res) {
         res.redirect('/play');
     }
 };
-
 exports.play = function(req, res) {
-    // if(!req.session.user){
-    //     return res.redirect('/signin');
-    // }
-
     var userData = {};
     if (req.session.user) {
         userData = _.clone(req.session.user);

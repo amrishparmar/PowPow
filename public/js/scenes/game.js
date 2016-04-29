@@ -19,7 +19,7 @@
     this.physics; //  the physics manager (Phaser.Physics)
     this.rnd; //  the repeatable random number generator (Phaser.RandomDataGenerator)
     this.world;
-    
+
     this.kills;
     this.killsText = {};
     // our own properties
@@ -48,8 +48,6 @@
     this.load.image('shrapnel', 'assets/images/shrapnel.png');
     this.load.image('grenade', 'assets/images/grenade.png');
     // Player
-    //  this.load.spritesheet('player', 'assets/sprites/characters.png', 32, 32);
-    //  this.load.spritesheet('player', 'assets/sprites/sprite4.png', 32, 48);
     this.load.spritesheet('player', 'assets/sprites/metroid_sprite.png', 60, 48);
     // Fonts
     this.load.bitmapFont('default', 'assets/fonts/default.png', 'assets/fonts/default_desktop.xml');
@@ -67,8 +65,6 @@
     this.game.pageAlignHorizontally = true;
     this.game.pageAlignVertically = true;
     this.game.scale.refresh();
-
-    // this.game.canvas.style.cursor = "xhair";
   };
 
 
@@ -95,13 +91,9 @@
 
     this.reset(x, y);
     this.scale.set(1);
-
     this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-
     this.angle = angle;
-
     this.body.gravity.set(gx, gy);
-
     this.id = id;
   };
 
@@ -147,7 +139,7 @@
     var y = sourceY + 16;
 
     game.fx.play();
-  
+
 
     this.getFirstExists(false).fire(x, y, angle, this.bulletSpeed, 0, 0, id);
 
@@ -260,7 +252,7 @@
 
     // Start physics
     phaser.physics.startSystem(Phaser.Physics.ARCADE);
-    phaser.physics.arcade.OVERLAP_BIAS = 10; 
+    phaser.physics.arcade.OVERLAP_BIAS = 10;
     this.add.tileSprite(0, 0, 1600, 1000, 'city');
     this.world.setBounds(0, 0, 1600, 1000);
     game.kills = 0;
@@ -293,8 +285,6 @@
     ledge.body.immovable = true;
 
     // add audio to game
-    // game.shoot1 = game.add.audio('shoot1');
-
     //handgun
     game.fx = this.game.add.audio('shoot1');
 
@@ -313,14 +303,10 @@
     };
     // Healthbar
     game.playerHealthBar = new HealthBar(this.game, barConfig);
-    
-    
-    
     game.killsText = phaser.add.text(800, 60, "Kills: " + game.kills, {
-            font: "24px Arial",
-            fill: "#76EE00",
-           
-        });
+      font: "24px Arial",
+      fill: "#76EE00",
+    });
     game.killsText.fixedToCamera = true;
     //------------------------------------
 
@@ -329,17 +315,14 @@
     game.groups.collisionGroup.enableBody = true;
     game.groups.collisionGroup.physicsBodyType = Phaser.Physics.ARCADE;
 
+    // Weapons
     game.weapons = [];
-
-
-
-
     game.weapons.push(new Weapon.AutoHG(this));
     game.weapons.push(new Weapon.MachineGun(this));
     game.weapons.push(new Weapon.Shotgun(this));
     game.weapons.push(new Weapon.GrenadeLauncher(this));
 
-    // // Player
+    // Player
     var user_id;
     user_id = game.user._id;
 
@@ -349,8 +332,6 @@
       group: game.groups.collisionGroup,
     });
     game.players[user_id] = game.localPlayer;
-
-
 
     // Logon event
     game.socket.emit('logon', {
@@ -400,14 +381,14 @@
       self.addRemoteBullet(bullet);
 
     });
-    
+
     game.socket.on('kills', function(bullet) {
-            var m = game.user._id;
-            if(m == bullet){
-            game.kills += 1;
-            }
-        });
-    
+      var m = game.user._id;
+      if (m == bullet) {
+        game.kills += 1;
+      }
+    });
+
     // Get online players
     game.socket.on('players', function(players) {
       _.each(players, function(player) {
@@ -417,16 +398,14 @@
   };
 
   // Update
-  function collisionHandler(sp1, sp2) {
-    // console.log(sp1, sp2);
-  }
+  function collisionHandler(sp1, sp2) {}
 
   GameScene.prototype.updatePlayers = function() {
     _.each(game.players, function(player) {
       player.update && player.update();
     });
-    
-     
+
+
   };
 
   // Main update
@@ -440,21 +419,11 @@
 
           game.grenade.play();
         }
-        // console.log(user_id);
       });
     }
 
 
-game.killsText.setText("Kills: " + game.kills);
-
-    // phaser.physics.arcade.collide(weapons[self.currentWeapon], game.localPlayer.sprite, function(bullet, player) {
-    //   console.log(game.players[player._id]);
-    // });
-
-    // phaser.physics.arcade.collide(weapons[this.currentWeapon], game.players, function(bullet, player) {
-    //     bullet.kill();
-    //     console.log(player + "got hit");
-    //   });
+    game.killsText.setText("Kills: " + game.kills);
   };
 
   GameScene.prototype.render = function() {
