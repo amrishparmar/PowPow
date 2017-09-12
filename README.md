@@ -5,8 +5,8 @@ An 2D online muliplayer platform shooter.
 Second year group project by [Amrish Parmar](https://github.com/amrishparmar), [Vidmantas Naravas](https://github.com/widmaN), [Hasan Banna](https://github.com/hasanbanna), Amir Hussain and Niru Kumar. 
 
 ## Requirements
-- NodeJS
-- MongoDB
+- NodeJS (tested working on v4.1.x)
+- MongoDB (tested working on v2.6.x)
 
 ## Deployment
 
