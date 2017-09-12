@@ -2,7 +2,7 @@
 
 An 2D online muliplayer platform shooter. 
 
-Group project by Amrish Parmar, Vidmantas Naravas, Hasan Banna, Amir Hussain, Niru Kumar. 
+Second year group project by [Amrish Parmar](https://github.com/amrishparmar), [Vidmantas Naravas](https://github.com/widmaN), [Hasan Banna](https://github.com/hasanbanna), Amir Hussain and Niru Kumar. 
 
 ## Requirements
 - NodeJS
@@ -12,14 +12,13 @@ Group project by Amrish Parmar, Vidmantas Naravas, Hasan Banna, Amir Hussain, Ni
 
 ### First time setup
 
-Execute the following to install dependencies specified in package.json (only needed first time):
+Execute the following to install the dependencies specified in package.json (only needed first time):
 ```
 npm install
 ```
 
 ### Executing the application
 
-Execute the following to run the application:
 1. Start MongoDB: In terminal enter: 
 ```
 ./mongod
